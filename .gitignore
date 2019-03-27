@@ -102,3 +102,26 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# GIS files
+*.hdf
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.shp
+*.xml
+*.shx
+
+# Other
+*.sql
+*.txt
+*.old
+*.ipynb
+*.tif
+
+# Other Folders
+sandbox/
+.vscode/
+tmp/
+.idea/
