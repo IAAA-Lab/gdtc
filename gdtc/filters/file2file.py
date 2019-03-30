@@ -8,20 +8,22 @@ class File2FileFilter():
     def __init__(self, params):
         self.params = params
 
-    # Ojo, igual habría que hacer una deepcopy defensiva, aunque en Python no sea muy habitual
-    def getParams(self):
+    def get_params(self):
         return self.params
 
-    def setInputPath(self, input_path):
+    def set_params(self, params):
+        self.params = params
+
+    def set_input_path(self, input_path):
         self.params['input_path'] = input_path
 
-    def setOutputPath(self, output_path):
+    def set_output_path(self, output_path):
         self.params['output_path'] = output_path
 
-    def getInputPath(self):
+    def get_input_path(self):
         return f'{self.params["input_path"]}.hdf'
 
-    def getOutputPath(self):
+    def get_output_path(self):
         return f'{self.params["output_path"]}.tif'
 
 
@@ -31,15 +33,15 @@ class FileFilterChain(File2FileFilter):
     """
     def __init__(self, fs, first_input_path, last_output_path, params):
         super(self.__class__, self).__init__(params)
-        fs[0].setInputPath(first_input_path)
-        fs[0].setOutputPath(f'{first_input_path}_output')
-        fs[-1].setOutputPath(last_output_path)
+        fs[0].set_input_path(first_input_path)
+        fs[0].set_output_path(f'{first_input_path}_output')
+        fs[-1].set_output_path(last_output_path)
 
         for i in range(1, len(fs)):
-            fs[i].setInputPath(fs[i-1].getOutputPath())
+            fs[i].set_input_path(fs[i - 1].get_output_path())
         self.fs = fs
 
-    def getFs(self):
+    def get_filters(self):
         return self.fs
 
     def run(self):
@@ -50,7 +52,7 @@ class FileFilterChain(File2FileFilter):
 class HDF2TIF(File2FileFilter):
     def run(self):
         # Load file and get layer
-        hdf = gdal.Open(self.getInputPath(), gdal.GA_ReadOnly)
+        hdf = gdal.Open(self.get_input_path(), gdal.GA_ReadOnly)
         src_ds = gdal.Open(hdf.GetSubDatasets()[int(self.params['layer_num'])][0], gdal.GA_ReadOnly)
 
         # Ojo con los tipos, asumimos que reproject es bool etc.
@@ -61,27 +63,27 @@ class HDF2TIF(File2FileFilter):
                                             errorThreshold=0,
                                             resampleAlg=gdal.GRA_Average,
                                             warpOptions=['SAMPLE_GRID=YES', 'SAMPLE_STEP=1000', 'SOURCE_EXTRA=1000'])
-            gdal.Warp(self.getOutputPath(), src_ds, options=warp_options)
+            gdal.Warp(self.get_output_path(), src_ds, options=warp_options)
 
         else:
             # Generate file in tif format
             layer_array = src_ds.ReadAsArray()
-            out = gdal.GetDriverByName('GTiff').Create(self.getOutputPath(), src_ds.RasterXSize, src_ds.RasterYSize, 1,
+            out = gdal.GetDriverByName('GTiff').Create(self.get_output_path(), src_ds.RasterXSize, src_ds.RasterYSize, 1,
                                                        gdal.GDT_Byte, ['COMPRESS=LZW', 'TILED=YES'])
             out.SetGeoTransform(src_ds.GetGeoTransform())
             out.SetProjection(src_ds.GetProjection())
             out.GetRasterBand(1).WriteArray(layer_array)
             # Write file to disk
             out = None
-        return self.getOutputPath()
+        return self.get_output_path()
 
 
 class TIF2SQL(File2FileFilter):
     def run(self):
         # Generate sql file
-        cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.getInputPath()}\" -F -d {self.params["table"]} > \"{self.getOutputPath()}\"'
+        cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_input_path()}\" -F -d {self.params["table"]} > \"{self.get_output_path()}\"'
         subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-        return self.getOutputPath()
+        return self.get_output_path()
 
 
 # Factory methods to create filters

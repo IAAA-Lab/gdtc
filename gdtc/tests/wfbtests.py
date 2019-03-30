@@ -64,13 +64,18 @@ class T4(luigi.Task):
 
 class TestFile2File(f2f.File2FileFilter):
     def run(self):
-        print(f'Transforming {self.getInputPath()} into {self.getOutputPath()}')
+        print(f'Transforming {self.get_input_path()} into {self.get_output_path()}')
+        print('With these additional parameters:')
+        for k,v in self.params.items():
+            print(f'{k},{v}')
         # Si no se crea realmente el fichero, no habrá LocalTarget y la Task de Luigi no parecerá completa nunca
         try:
-            open(self.getOutputPath(), 'x').close()
+            open(self.get_output_path(), 'x').close()
         except FileExistsError:
             pass
 
+        # TODO: Si escribe siempre el mismo fichero, lo tienes que borrar a mano cada vez o la siguiente
+        # ejecución piensa que la faena ya está hecha y no hace nada más
 
 if __name__ == '__main__':
     # Solo puedo crear dos del mismo tipo en la misma secuencia si tienen parámetros
@@ -82,19 +87,30 @@ if __name__ == '__main__':
     luigi.build([b])
 
     f1 = TestFile2File(params={})
-    f1.setInputPath("f1input")
-    f1.setOutputPath("f1output")
+    f1.set_input_path("f1input")
+    f1.set_output_path("f1output")
     c = wfb.create_file_2_file_task(f1)
     luigi.build([c])
 
     f2 = TestFile2File(params={})
-    f2.setInputPath("f2input")
-    f2.setOutputPath("f2output")
+    f2.set_input_path("f2input")
+    f2.set_output_path("f2output")
 
     filterChain = f2f.FileFilterChain([f1,f2], "fileinp", "fileoup", params={})
     filterChain.run()
 
     d = wfb.filter_chain_2_task_chain(filterChain)
     luigi.build([d])
+
+
+    # This creates a new Task, that subclasses File2FileTask with some additional parameters
+    f3 = TestFile2File(params={'input_path':'f3input', 'coco':24, 'foobar':'minion'})
+    f3.set_output_path("f3output")
+    ATaskClass = wfb.create_file_2_file_task_subclass(f3)
+    # As I have created a new Task class, I can provide new values for the parameters before
+    # runnning it (luigi style parameters, I could set them from the command line for instance)
+    e = ATaskClass(input_path = f3.get_input_path(), output_path = f3.get_output_path(), coco="25", foobar='patata')
+    luigi.build([e])
+
 
 
