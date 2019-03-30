@@ -55,23 +55,22 @@ def create_file_2_file_task_subclass(f):
         class_properties[k] = luigi.Parameter(v) # We can give a value to the parameter at the class level, but we
         # can still override it at the object level with luigi Parameters magic
 
-    # We will also add a proper constructor that calls its super
+    # We will also add a proper constructor that calls its super, parses de Luigi params and
+    # makes them available to the f object, for instance for using them in run
     def newinit(self, *args, **kwargs):
         super(basetasks.File2FileTask, self).__init__(*args, **kwargs)
-    class_properties['__init__'] = newinit
-
-    # And the run method of f
-    def newrun(self):
         fparams = {}
         # For every (param_name, Param object (that we don't need) in the Task
-        for k,_ in self.get_params():
+        for k, _ in self.get_params():
             # self.aparam would allow us to access to the value of the param named aparam.
             # This is the dynamic version, where that value is stored in fparams
             fparams[k] = getattr(self, k)
+        # and finally given to the f object so they are available when needed
         f.set_params(fparams)
-        f.run()
+    class_properties['__init__'] = newinit
 
-    class_properties['run'] = newrun
+    # And the run method of f
+    class_properties['run'] = lambda self: f.run()
 
     # TODO: create a unique class name for each invocation, or maybe accept a paramter with it
     # instead of TempClassName
