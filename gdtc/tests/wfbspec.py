@@ -1,5 +1,7 @@
 import unittest
 import luigi
+
+import filters.basefilters
 import gdtc.filters.file2file as f2f
 import gdtc.tasks.workflowbuilder as wfb
 
@@ -35,7 +37,8 @@ class TestWorkFlowBuilding(unittest.TestCase):
         f2 = TestFile2File(params={})
         f2.set_input_path("f2input.hdf")
         f2.set_output_path("f2output.tif")
-        filterChain = f2f.FileFilterChain([f1, f2], "fileinp.tif", "fileoup.sql", params={})
+        filterChain = filters.basefilters.create_file_filter_chain(params={}, fs=[f1, f2], first_input_path="fileinp.tif",
+                                                          last_output_path="fileoup.sql")
         # The test will also fail if this run fails (i.e. raises an Exception)
         filterChain.run()
 
@@ -122,7 +125,7 @@ class T4(luigi.Task):
 
 
 
-class TestFile2File(f2f.File2FileFilter):
+class TestFile2File(filters.basefilters.File2FileFilter):
     def run(self):
         print(f'Transforming {self.get_input_path()} into {self.get_output_path()}')
         print('With these additional parameters:')

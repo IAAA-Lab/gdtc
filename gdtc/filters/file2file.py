@@ -1,63 +1,7 @@
 from osgeo import gdal
 import subprocess
 
-class File2FileFilter():
-    """
-    Base class for filters that take an input file and produce an output file.
-    It requires a params dictionary with at least an input_path and output_path
-    properties.
-    """
-    def __init__(self, params):
-        self.params = params
-
-    def get_params(self):
-        return self.params
-
-    def set_params(self, params):
-        self.params = params
-
-    def set_input_path(self, input_path):
-        self.params['input_path'] = input_path
-
-    def set_output_path(self, output_path):
-        self.params['output_path'] = output_path
-
-    def get_input_path(self):
-        return f'{self.params["input_path"]}'
-
-    def get_output_path(self):
-        return f'{self.params["output_path"]}'
-
-
-class FileFilterChain(File2FileFilter):
-    """
-    A File2FileFilter takes a sequence of File2FileFilter as input, the name of the input_path of the
-    first filter, the output_path of the last filter and modifies the input_path and output_path of the
-    filters in the middle so the output of i is the input of i+1.
-
-    Notice that the passed filters will be changed. If you intend to use them in different chains etc.,
-    you better make copies of them.
-    """
-    def __init__(self, fs, first_input_path, last_output_path, params):
-        super(self.__class__, self).__init__(params)
-        fs[0].set_input_path(first_input_path)
-        fs[0].set_output_path(f'{first_input_path}_output')
-        fs[-1].set_output_path(last_output_path)
-
-        for i in range(1, len(fs)):
-            fs[i].set_input_path(fs[i - 1].get_output_path())
-        self.fs = fs
-
-    def get_filters(self):
-        return self.fs
-
-    def run(self):
-        """
-        Runs the filters in order
-        :return:
-        """
-        for f in self.fs:
-            f.run()
+from filters.basefilters import File2FileFilter
 
 
 class HDF2TIF(File2FileFilter):
