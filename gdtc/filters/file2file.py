@@ -21,10 +21,10 @@ class File2FileFilter():
         self.params['output_path'] = output_path
 
     def get_input_path(self):
-        return f'{self.params["input_path"]}.hdf'
+        return f'{self.params["input_path"]}'
 
     def get_output_path(self):
-        return f'{self.params["output_path"]}.tif'
+        return f'{self.params["output_path"]}'
 
 
 class FileFilterChain(File2FileFilter):
