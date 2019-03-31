@@ -4,6 +4,7 @@ import gdtc.tasks.workflowbuilder as wfb
 
 
 # TODO: probar con un fichero HDF de verdad, que no tenía uno a mano y peta
+# y convertir en un test como tal
 if __name__ == '__main__':
     # We create 2 filters
     f1 = f2f.hdf2tif(layer_num=0, dstSRS="EPSG:4358")

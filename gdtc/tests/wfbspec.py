@@ -23,19 +23,19 @@ class TestWorkFlowBuilding(unittest.TestCase):
 
     def test_file_2_file_task(self):
         f1 = TestFile2File(params={})
-        f1.set_input_path("f1input")
-        f1.set_output_path("f1output")
+        f1.set_input_path("f1input.hdf")
+        f1.set_output_path("f1output.tif")
         c = wfb.create_file_2_file_task(f1)
         self.assertTrue(luigi.build([c]))
 
     def test_filter_chain(self):
         f1 = TestFile2File(params={})
-        f1.set_input_path("f1input")
-        f1.set_output_path("f1output")
+        f1.set_input_path("f1inputb.tif")
+        f1.set_output_path("f1outputb.sql")
         f2 = TestFile2File(params={})
-        f2.set_input_path("f2input")
-        f2.set_output_path("f2output")
-        filterChain = f2f.FileFilterChain([f1, f2], "fileinp", "fileoup", params={})
+        f2.set_input_path("f2input.hdf")
+        f2.set_output_path("f2output.tif")
+        filterChain = f2f.FileFilterChain([f1, f2], "fileinp.tif", "fileoup.sql", params={})
         # The test will also fail if this run fails (i.e. raises an Exception)
         filterChain.run()
 

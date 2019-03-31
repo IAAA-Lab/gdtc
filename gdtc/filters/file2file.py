@@ -4,6 +4,8 @@ import subprocess
 class File2FileFilter():
     """
     Base class for filters that take an input file and produce an output file.
+    It requires a params dictionary with at least an input_path and output_path
+    properties.
     """
     def __init__(self, params):
         self.params = params
@@ -29,7 +31,12 @@ class File2FileFilter():
 
 class FileFilterChain(File2FileFilter):
     """
-    A File2FileFilter which takes a sequence of File2Files as input, and runs them in order
+    A File2FileFilter takes a sequence of File2FileFilter as input, the name of the input_path of the
+    first filter, the output_path of the last filter and modifies the input_path and output_path of the
+    filters in the middle so the output of i is the input of i+1.
+
+    Notice that the passed filters will be changed. If you intend to use them in different chains etc.,
+    you better make copies of them.
     """
     def __init__(self, fs, first_input_path, last_output_path, params):
         super(self.__class__, self).__init__(params)
@@ -45,6 +52,10 @@ class FileFilterChain(File2FileFilter):
         return self.fs
 
     def run(self):
+        """
+        Runs the filters in order
+        :return:
+        """
         for f in self.fs:
             f.run()
 

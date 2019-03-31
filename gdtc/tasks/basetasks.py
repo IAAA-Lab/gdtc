@@ -4,6 +4,9 @@ class File2FileTask(luigi.Task):
     """
     Used by the workflowbuilder methods to create luigi Tasks that produce a local file as output.
     """
+
+    # TODO: Pendiente decidir si necesito estos Parameters fijos, o si puedo añadirlos todos
+    # dinámicamente
     input_path = luigi.Parameter()
     output_path = luigi.Parameter()
 

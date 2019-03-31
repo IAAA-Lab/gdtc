@@ -28,6 +28,12 @@ def make_require_many(t1, ts):
 
 
 def create_task_chain(ts):
+    """
+    Takes a sequence of tasks and creates a luigi workflow by making the i-nth task to require the (i-1)-nth
+    :param ts:
+    :return: the last one of the sequence. Running that one with luigi will run the whole chain because they
+    are all linked by their requires methods
+    """
     for i in range(1, len(ts)):
         # The commented line would not work. I assume it is because the closure of the
         # lambda can't capture the i variable
@@ -46,8 +52,15 @@ def create_file_2_file_task(f):
     t1.run = types.MethodType((lambda self : f.run()), t1)
     return t1
 
-
+# TODO: Managing inputs and outputs requires some extra work, or we can assume that the File2FileTask does
+# already that?
 def create_file_2_file_task_subclass(f):
+    """
+    Creates a Task class, that subclasses File2FileTask and runs the File2FileFilter f.
+    TODO: complete this explaining how it manages luigi Params
+    :param f:
+    :return:
+    """
     # We will add the params in f to the properties of the class we create
     class_properties = {}
     params = f.get_params()
@@ -55,7 +68,7 @@ def create_file_2_file_task_subclass(f):
         class_properties[k] = luigi.Parameter(v) # We can give a value to the parameter at the class level, but we
         # can still override it at the object level with luigi Parameters magic
 
-    # We will also add a proper constructor that calls its super, parses de Luigi params and
+    # We will also add a proper constructor that calls its super, parses the Luigi params and
     # makes them available to the f object, for instance for using them in run
     def newinit(self, *args, **kwargs):
         super(basetasks.File2FileTask, self).__init__(*args, **kwargs)
@@ -72,7 +85,7 @@ def create_file_2_file_task_subclass(f):
     # And the run method of f
     class_properties['run'] = lambda self: f.run()
 
-    # TODO: create a unique class name for each invocation, or maybe accept a paramter with it
+    # TODO: create a unique class name for each invocation, or maybe accept a parameter with a name
     # instead of TempClassName
     return type("TempClassName", (basetasks.File2FileTask,), class_properties)
 
