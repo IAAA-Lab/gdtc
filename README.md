@@ -1,8 +1,8 @@
 # IAAA GeoData ToolChain (GDTC)
-This library  will facilitate its users to create ETL (Extraction, Transformation and Load) pipelines in Python, with a strong emphasis on geographic data transformation.
+This is a library to create ETL (Extraction, Transformation and Load) pipelines in Python, with a strong emphasis on geographic data transformation.
 GDTC will leverage existing geographic data processing tools (PostGIS, GDAL, etc.) and will provide a uniform access to their capabilities.
-GDTC does not intend neithr to provide a GUI to develop the ETL pipelines nor to develop a language to express them. We believe that Python is perfect for this
-purpose. We just intend to make useful tools easily available to develop geographic ETL scripts in that language.
+GDTC does not intend neither to provide a GUI to develop the ETL pipelines nor to develop its own language to express them. We believe that Python is the right tool for this
+purpose. We just intend to make useful tools readily available to the developers of geographic ETL scripts in that language.
 
 ## Installation
 
