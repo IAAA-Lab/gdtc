@@ -457,7 +457,7 @@ layer=-1</panel_attributes>
       <w>90</w>
       <h>63</h>
     </coordinates>
-    <panel_attributes>ExecSQL
+    <panel_attributes>ExecSQLFile
 --
 --
 +run()</panel_attributes>
@@ -477,8 +477,8 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>828</x>
-      <y>891</y>
+      <x>837</x>
+      <y>1179</y>
       <w>135</w>
       <h>81</h>
     </coordinates>
@@ -501,6 +501,7 @@ layer=-1</panel_attributes>
     <panel_attributes>file2db_factories
 --
 --
++execsqlfile(...)
 +hdf2db(...)</panel_attributes>
     <additional_attributes/>
   </element>
@@ -524,10 +525,13 @@ layer=-1</panel_attributes>
     <coordinates>
       <x>1233</x>
       <y>1350</y>
-      <w>162</w>
+      <w>234</w>
       <h>63</h>
     </coordinates>
-    <panel_attributes>File2FileTask</panel_attributes>
+    <panel_attributes>File2FileTask
+--
+_+input_path : luigi.Parameter()_
+_+output_path : luigi.Parameter()_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -563,18 +567,6 @@ layer=-1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1224</x>
-      <y>1044</y>
-      <w>216</w>
-      <h>324</h>
-    </coordinates>
-    <panel_attributes>lt=.
-&lt;&lt;creates, subclasses...&gt;&gt;</panel_attributes>
-    <additional_attributes>100.0;340.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>1377</x>
       <y>279</y>
       <w>81</w>
@@ -594,5 +586,41 @@ layer=-1</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
 m2=1..*</panel_attributes>
     <additional_attributes>140.0;310.0;140.0;10.0;10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1233</x>
+      <y>1044</y>
+      <w>207</w>
+      <h>324</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;creates, subclasses...&gt;&gt;</panel_attributes>
+    <additional_attributes>80.0;340.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>783</x>
+      <y>1017</y>
+      <w>414</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+</panel_attributes>
+    <additional_attributes>10.0;190.0;440.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>666</x>
+      <y>900</y>
+      <w>531</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+</panel_attributes>
+    <additional_attributes>10.0;10.0;570.0;70.0</additional_attributes>
   </element>
 </diagram>

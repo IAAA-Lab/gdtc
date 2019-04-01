@@ -2,6 +2,7 @@ import luigi
 import unittest
 
 import filters.basefilters as basefilters
+import filters.basefilters_factories
 import filters.file2db_factories
 import filters.file2file as f2f
 import filters.file2file_factories
@@ -19,8 +20,8 @@ class TestGISWorkflows(unittest.TestCase):
         f2 = filters.file2file_factories.tif2sql(coord_sys = coord_sys, table ="table_dummy", db ="db_dummy")
 
         # We chain them
-        filterchain = basefilters.create_file_filter_chain(params={}, fs=[f1, f2], first_input_path="fichero_entrada",
-                                                          last_output_path="fichero_salida")
+        filterchain = filters.basefilters_factories.create_file_filter_chain(params={}, fs=[f1, f2], first_input_path="fichero_entrada",
+                                                                             last_output_path="fichero_salida")
         # We may simply run them in order
         filterchain.run()
 
@@ -29,7 +30,8 @@ class TestGISWorkflows(unittest.TestCase):
         luigi.build([workflow])
 
     def test_hdf2db(self):
-        filterchain = filters.file2db_factories.hdf2db(input_file_name="algo.hdf", layer_num=0, coord_sys="", table="", db="", host="", port="", user="", password="")
+        filterchain = filters.file2db_factories.hdf2db(input_file_name="algo.hdf", layer_num=0, coord_sys="", table="",
+                                                       host="", port="", user="", password="", db="")
         filterchain.run()
         # We may create and run a luigi workflow instead
         workflow = wfb.filter_chain_2_task_chain(filterchain)

@@ -45,6 +45,7 @@ class FilterChain(Filter):
     """
     A wrapper over a sequence of filters that will be run in order.
     The params in a FilterChain are for global settings, each Filter will have their own.
+    Generally speaking, the global settings override the local ones.
     """
     def __init__(self, params, fs):
         super(FilterChain, self).__init__(params)
@@ -63,31 +64,6 @@ class FilterChain(Filter):
         """
         for f in self.fs:
             f.run()
-
-def create_file_filter_chain(params, fs, first_input_path, last_output_path):
-    fs[0].set_input_path(first_input_path)
-    fs[0].set_output_path(f'{first_input_path}_output')
-    fs[-1].set_output_path(last_output_path)
-
-    for i in range(1, len(fs)):
-        fs[i].set_input_path(fs[i - 1].get_output_path())
-
-    return FilterChain(params, fs)
-
-# TODO: this works as long as the filter chain ends in a file and the filter starts with one. We will need
-# similar solutions for other kinds of filters and chains
-def append_filter_to_chain(fc, f):
-    """
-    Add Filter f to FilterChain fc by taking the output_path of the last Filter in the FilterChain and
-    making it the input path of the Filter f.
-    :param fc:
-    :param f:
-    :return:
-    """
-    f.set_input_path(fc.get_filters()[-1].get_output_path)
-    fc.append_filter(f)
-    return fc
-
 
 class File2DBFilter(Filter):
     """

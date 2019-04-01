@@ -2,7 +2,7 @@ import aux.db as gdtcdb
 import filters.basefilters as basefilters
 
 
-class ExecSQL(basefilters.File2DBFilter):
+class ExecSQLFile(basefilters.File2DBFilter):
     def run(self):
         db = gdtcdb.Db(self.params['output_db_host'],
                        self.params['output_db_port'],

@@ -2,7 +2,8 @@ import unittest
 import luigi
 
 import filters.basefilters
-import gdtc.filters.file2file as f2f
+import filters.basefilters_factories
+import aux.file
 import gdtc.tasks.workflowbuilder as wfb
 
 # TODO: When a task writes always the same file, either you delete it before running the task again or
@@ -25,20 +26,20 @@ class TestWorkFlowBuilding(unittest.TestCase):
 
     def test_file_2_file_task(self):
         f1 = TestFile2File(params={})
-        f1.set_input_path("f1input.hdf")
-        f1.set_output_path("f1output.tif")
+        f1.set_input_path(aux.file.create_tmp_file())
+        f1.set_output_path(aux.file.create_tmp_file())
         c = wfb.create_file_2_file_task(f1)
         self.assertTrue(luigi.build([c]))
 
     def test_filter_chain(self):
         f1 = TestFile2File(params={})
-        f1.set_input_path("f1inputb.tif")
-        f1.set_output_path("f1outputb.sql")
+        f1.set_input_path(aux.file.create_tmp_file())
+        f1.set_output_path(aux.file.create_tmp_file())
         f2 = TestFile2File(params={})
-        f2.set_input_path("f2input.hdf")
-        f2.set_output_path("f2output.tif")
-        filterChain = filters.basefilters.create_file_filter_chain(params={}, fs=[f1, f2], first_input_path="fileinp.tif",
-                                                          last_output_path="fileoup.sql")
+        f2.set_input_path(aux.file.create_tmp_file())
+        f2.set_output_path(aux.file.create_tmp_file())
+        filterChain = filters.basefilters_factories.create_file_filter_chain(params={}, fs=[f1, f2],
+                                                                             first_input_path=f1.get_input_path())
         # The test will also fail if this run fails (i.e. raises an Exception)
         filterChain.run()
 
@@ -47,8 +48,8 @@ class TestWorkFlowBuilding(unittest.TestCase):
 
     def test_create_task_class(self):
         # This creates a new Task, that subclasses File2FileTask with some additional parameters
-        f3 = TestFile2File(params={'input_path': 'f3input', 'coco': 24, 'foobar': 'minion'})
-        f3.set_output_path('f3output')
+        f3 = TestFile2File(params={'input_path': aux.file.create_tmp_file(), 'coco': 24, 'foobar': 'minion'})
+        f3.set_output_path(aux.file.create_tmp_file())
         ATaskClass = wfb.create_file_2_file_task_subclass(f3)
         # As I have created a new Task class, I can provide new values for the parameters before
         # runnning it (luigi style parameters, I could set them from the command line for instance)
