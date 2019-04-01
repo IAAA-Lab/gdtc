@@ -20,7 +20,7 @@ class TestWorkFlowBuilding(unittest.TestCase):
         self.assertTrue(luigi.build([a]))
 
     def test_task_chain2(self):
-        a = wfb.make_require_many(T1(foo="bar"), [T1(foo="coco"), T1(foo="kiko"), T2()])
+        a = wfb.make_require(T1(foo="bar"), [T1(foo="coco"), T1(foo="kiko"), T2()])
         self.assertTrue(luigi.build([a]))
 
     def test_file_2_file_task(self):

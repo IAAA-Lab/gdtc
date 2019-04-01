@@ -6,26 +6,15 @@ import gdtc.tasks.basetasks as basetasks
 
 def make_require(t1, t2):
     """
-    Task t1 will require Task t2 (an only that).
+    Task t1 will require Task t2 (an only that) or all the Tasks in sequence ts (and only those).
     :param t1:
-    :param t2:
+    :param t2: a single Task or a sequence of Tasks
     :return: t1
     """
     # It has to be a types.MethodType. You can't give a normal function to an object because that
     # will not be a method of that object (e.g. it won't have access to self)
     t1.requires = types.MethodType((lambda self : t2), t1)
     return t1
-
-def make_require_many(t1, ts):
-    """
-    Task t1 will require all Tasks in ts (and only those)
-    :param t1:
-    :param ts:
-    :return: t1
-    """
-    t1.requires = types.MethodType((lambda self: ts), t1)
-    return t1
-
 
 def create_task_chain(ts):
     """
