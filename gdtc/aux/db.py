@@ -34,3 +34,12 @@ class Db():
         with self.connect().cursor() as cur:
             cur.execute(sql)
             self.connection.commit()
+
+# TODO: create an object for database stuff? maybe a dictionary that can be mixed with others?
+def add_output_db_params(params, host, port, user, password, db):
+    params['output_db_host'] = host
+    params['output_db_port'] = port
+    params['output_db_user'] = user
+    params['output_db_password'] = password
+    params['output_db_database'] = db
+    return params
