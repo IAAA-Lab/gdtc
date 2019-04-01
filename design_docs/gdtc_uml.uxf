@@ -40,26 +40,6 @@ bg=#FFAAAA
     <additional_attributes>14.0;250.0;180.0;10.0</additional_attributes>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>0</x>
-      <y>630</y>
-      <w>243</w>
-      <h>162</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Dictionary&gt;&gt;
---
-+inputFilePath
-+outputFilePath
-+inputSRS
-+outputSRS
-...
-
-
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLPackage</id>
     <coordinates>
       <x>1539</x>
@@ -622,5 +602,30 @@ m2=1..*</panel_attributes>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
     <additional_attributes>10.0;10.0;570.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>855</x>
+      <y>1323</y>
+      <w>297</w>
+      <h>198</h>
+    </coordinates>
+    <panel_attributes>En líneas generales, una entrada dejada
+a None significa que queremos ese filtro
+para enlazarlo con uno anterior y que
+por tanto de momento no sabemos cuál
+será la entrada, mientras que una
+salida dejada a None significa que
+nos da igual donde quede la salida, así
+que podemos crear un fichero temporal
+para ella.
+
+Esta asimetría tiene perfecto sentido,
+dado que la entrada de un filtro
+no depende de él, pero la salida
+sí.
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

@@ -1,6 +1,8 @@
 import tempfile
 import datetime
 
+# TODO: The file is crated with read/write permission for the user owner of the process that
+# creates it. Make sure this will not cause trouble
 def create_tmp_file():
     """
     Creates a temporary file that will not be deleted after closed (we do not know who will read it and when)

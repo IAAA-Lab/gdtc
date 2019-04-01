@@ -6,9 +6,6 @@ import filters.basefilters_factories
 import aux.file
 import gdtc.tasks.workflowbuilder as wfb
 
-# TODO: When a task writes always the same file, either you delete it before running the task again or
-# the next run will be an automatic success because the task will not run. Improve this to make automatic cleanup
-# before running the tests
 # TODO: This tests require that luigid is running, it would be nice to check this somehow
 # TODO: luigi.build returns True if there were no scheduling errors, but tasks may have failed nonetheless and that
 # is not tested
