@@ -1,7 +1,6 @@
 import filters.basefilters_factories
 import filters.file2file_factories
 from aux import db as gdtcdb
-from filters import basefilters as basefilters
 from filters.file2db import ExecSQLFile
 
 def execsqlfile(host, port, user, password, db, sql_file_path=None):
