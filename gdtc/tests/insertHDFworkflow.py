@@ -1,13 +1,10 @@
 import luigi
 import unittest
 
-import filters.basefilters as basefilters
 import filters.basefilters_factories
 import filters.file2db_factories
-import filters.file2file as f2f
 import filters.file2file_factories
 import tasks.workflowbuilder as wfb
-import filters.file2db as f2db
 
 # TODO: hacer los tests con ficheros y bd reales, mientras tanto fallarán siempre
 
