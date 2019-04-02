@@ -1,6 +1,6 @@
 import luigi
 import types
-import gdtc.tasks.basetasks as basetasks
+import tasks.basetasks as basetasks
 
 # Task builders and modifiers
 

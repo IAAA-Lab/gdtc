@@ -22,6 +22,7 @@ class Db():
 
         with psycopg2.connect(
            port = self.port,
+           host = self.host,
            database = self.database,
            user = self.user,
            password = self.password) as connection:

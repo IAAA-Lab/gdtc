@@ -28,6 +28,6 @@ def append_filter_to_chain(fc, f):
     :param f:
     :return:
     """
-    f.set_input_path(fc.get_filters()[-1].get_output_path)
+    f.set_input_path(fc.get_filters()[-1].get_output_path())
     fc.append_filter(f)
     return fc
