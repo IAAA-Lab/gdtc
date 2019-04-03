@@ -1,0 +1,25 @@
+version: '3'
+services:
+  gdtc:
+    image: gdtc/base:latest
+    container_name: gdtc
+    environment: 
+      - POSTGIS_HOST=${POSTGIS_HOST}
+      - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
+      - GDTC_IN_VOL=${GDTC_IN_VOL}
+      - GDTC_OUT_VOL=${GDTC_OUT_VOL}
+    volumes:
+      - ${LOCAL_IN_VOL}:/input
+      - ${LOCAL_OUT_VOL}:/output
+    stdin_open: true
+    tty: true
+  postgis:
+    image: "mdillon/postgis"
+    container_name: postgis
+    environment: 
+      - POSTGIS_HOST=${POSTGIS_HOST}
+      - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
+    ports:
+     - "${POSTGIS_EXTERNAL_PORT}:${POSTGIS_INTERNAL_PORT}"
+    stdin_open: true
+    tty: true
