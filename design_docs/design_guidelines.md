@@ -11,7 +11,7 @@ Making the design of geopipelines as simple as possible requires this. If we pro
 This may require sacrificing efficiency or some flexibility. Nothing worth having is free.
 
 ## Smart users
-GDTC is intened for users that are fluent in Python and know their geo stuff, but are not particularly interested in remembering the syntax of PostGIS SQL, or the parameters of GDAL, or which version of this can be used with that etc.
+GDTC is intended for users that are fluent in Python and know their geo stuff, but are not particularly interested in remembering the syntax of PostGIS SQL, or the parameters of GDAL, or which version of this can be used with that etc.
 
 ## No GUI
 We are not against GUI in general. We just want to focus on pipelines scripted in Python. 
@@ -30,3 +30,6 @@ Computer time is far less valuable than people time. Providing the simpler way t
 
 ## Automatic performance improvements
 Making some constraints on the tools used, will make it easier to improve the performance of pipelines in the future. E.g., if we enforce the use of a certain version of PostgreSQL/PostGIS for the DB2DB filters, it may be possible to analyze a filter chain desiged by a user and to produce a more efficient alternative (e.g. by combining some SQL queries, or ordering them in a different way).
+
+## Deployment based on Docker
+Using GDTC should not require a complex configuration of the user environment or installing tools and libraries by hand. Docker will make this possible.
