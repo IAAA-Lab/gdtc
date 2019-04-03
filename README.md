@@ -13,6 +13,26 @@ you can use Anaconda Navigator (Environments > Import) with that file. In any ca
 
 After that, you can run `conda activate gdtc` to activate the environment, or use Anaconda Navigator instead.
 
+## Docker
+
+You can use Docker to install the whole application with all it's dependecies, including the Postgis working database.
+
+In order to do that, follow those steps:
+
+`git clone https://github.com/IAAA-Lab/gdtc.git` <br />
+`cd deployment` <br />
+`docker build -t gdtc/latest .` <br />
+`docker-compose up -d` <br />
+`docker exec -ti gdtc /bin/bash` <br />
+
+This way you will get connected to a fully configurated instance of a GDTC container.
+
+In order to check connection with Postgis container, try next command:
+
+`psql -h $POSTGIS_HOST -p $POSTGIS_PORT -d postgres -U postgres`
+
+If everything is ok, you should see: _postgres=#_
+
 ## License
 This work is subject to the European Union Public License 1.2 which can be read in the LICENSE file. Regarding the attribution obligation in that license, this work is:
 
