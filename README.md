@@ -12,3 +12,13 @@ There is a Conda environment file named `gdtc_conda.yml`. You can create the env
 you can use Anaconda Navigator (Environments > Import) with that file. In any case you will have a conda environment named `gdtc` in your computer.
 
 After that, you can run `conda activate gdtc` to activate the environment, or use Anaconda Navigator instead.
+
+## License
+This work is subject to the European Union Public License 1.2 which can be read in the LICENSE file. Regarding the attribution obligation in that license, this work is:
+
+Copyright 2019 by the [IAAA (Advanced Information Systems Laboratory)](https://www.iaaa.es).
+
+Contributors:
+
+- [Rubén Béjar](https://www.rubenbejar.com)
+- [Víctor Fernández Melic](https://github.com/Melic93)
