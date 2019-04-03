@@ -20,7 +20,7 @@ You can use Docker to install the whole application with all it's dependecies, i
 In order to do that, follow those steps:
 
 `git clone https://github.com/IAAA-Lab/gdtc.git` <br />
-`cd deployment` <br />
+`cd gdtc/deployment` <br />
 `docker build -t gdtc/latest .` <br />
 `docker-compose up -d` <br />
 `docker exec -ti gdtc /bin/bash` <br />
