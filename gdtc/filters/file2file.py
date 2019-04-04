@@ -7,7 +7,7 @@ from filters.basefilters import File2FileFilter
 class HDF2TIF(File2FileFilter):
     def run(self):
         # Load file and get layer
-        hdf = gdal.Open(self.get_input_path(), gdal.GA_ReadOnly)
+        hdf = gdal.Open(self.get_input(), gdal.GA_ReadOnly)
         src_ds = gdal.Open(hdf.GetSubDatasets()[int(self.params['layer_num'])][0], gdal.GA_ReadOnly)
 
         # Ojo con los tipos, asumimos que reproject es bool etc.
@@ -18,24 +18,24 @@ class HDF2TIF(File2FileFilter):
                                             errorThreshold=0,
                                             resampleAlg=gdal.GRA_Average,
                                             warpOptions=['SAMPLE_GRID=YES', 'SAMPLE_STEP=1000', 'SOURCE_EXTRA=1000'])
-            gdal.Warp(self.get_output_path(), src_ds, options=warp_options)
+            gdal.Warp(self.get_output(), src_ds, options=warp_options)
 
         else:
             # Generate file in tif format
             layer_array = src_ds.ReadAsArray()
-            out = gdal.GetDriverByName('GTiff').Create(self.get_output_path(), src_ds.RasterXSize, src_ds.RasterYSize, 1,
+            out = gdal.GetDriverByName('GTiff').Create(self.get_output(), src_ds.RasterXSize, src_ds.RasterYSize, 1,
                                                        gdal.GDT_Byte, ['COMPRESS=LZW', 'TILED=YES'])
             out.SetGeoTransform(src_ds.GetGeoTransform())
             out.SetProjection(src_ds.GetProjection())
             out.GetRasterBand(1).WriteArray(layer_array)
             # Write file to disk
             out = None
-        return self.get_output_path()
+        return self.get_output()
 
 
 class TIF2SQL(File2FileFilter):
     def run(self):
         # Generate sql file
-        cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_input_path()}\" -F -d {self.params["table"]} > \"{self.get_output_path()}\"'
+        cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_input()}\" -F -d {self.params["table"]} > \"{self.get_output()}\"'
         subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-        return self.get_output_path()
+        return self.get_output()

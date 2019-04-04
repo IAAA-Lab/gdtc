@@ -23,8 +23,9 @@ class TestGISWorkflows(unittest.TestCase):
         f2 = filters.file2file_factories.tif2sql(coord_sys = coord_sys, table ="table_dummy", db ="db_dummy")
 
         # We chain them
-        filterchain = filters.basefilters_factories.create_file_filter_chain(params={}, fs=[f1, f2], first_input_path=input_file,
-                                                                             last_output_path=output_file)
+        filterchain = filters.basefilters_factories.create_filter_chain(params={}, fs=[f1, f2], first_input=input_file,
+                                                                            last_output=output_file)
+
         # We may simply run them in order
         filterchain.run()
 
@@ -41,7 +42,7 @@ class TestGISWorkflows(unittest.TestCase):
         filterchain.run()
         # We may create and run a luigi workflow instead
         # workflow = wfb.filter_chain_2_task_chain(filterchain)
-        # luigi.build([workflow])
+        #luigi.build([workflow])
 
 if __name__ == '__main__':
     unittest.main()

@@ -18,7 +18,7 @@ def hdf2db(input_file_name, layer_num, coord_sys, table, host, port, user, passw
     f3 = execsqlfile(host, port, user, password, db)
 
     # The chain does not use the params so a {} is OK. But, in the future this may change...
-    hdf2db_chain = filters.basefilters_factories.create_file_filter_chain({}, [f1, f2],
-                                                                          first_input_path = input_file_name)
-    hdf2db_chain = filters.basefilters_factories.append_filter_to_chain(hdf2db_chain, f3)
+    hdf2db_chain = filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3],
+                                                                          first_input = input_file_name, last_output=f3.get_output())
+
     return hdf2db_chain
