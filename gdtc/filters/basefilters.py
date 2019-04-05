@@ -167,11 +167,11 @@ class DB2DBFilter(Filter):
     def get_output(self):
         # If no output is defined, input is considered as the output
         return {
-            "db_host": self.params["output_db_host"] or self.params["input_db_host"],
-            "db_port": self.params["output_db_port"] or self.params["input_db_port"],
-            "db_database": self.params["output_db_database"] or self.params["input_db_database"],
-            "db_user": self.params["output_db_user"] or self.params["input_db_user"],
-            "db_password": self.params["output_db_password"] or self.params["input_db_password"]
+            "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
+            "db_port": self.params["output_db_port"] if "output_db_port" in self.params else self.params["input_db_port"],
+            "db_database": self.params["output_db_database"] if "output_db_database" in self.params else self.params["input_db_database"],
+            "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
+            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"]
         }
 
 

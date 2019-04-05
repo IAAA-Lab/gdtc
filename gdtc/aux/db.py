@@ -8,12 +8,12 @@ import psycopg2
 
 class Db():
 
-    def __init__(self, host, port, user, password, database):
+    def __init__(self, host, port, database, user, password):
         self.host = host
         self.port = port
+        self.database = database
         self.user = user
         self.password = password
-        self.database = database
 
     def connect(self):
         """

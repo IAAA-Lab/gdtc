@@ -39,28 +39,18 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_row_filter(self):
         input_params = {
-            "db_host": "localhost",
-            "db_port": 8432,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "in_table"
-        }
-        output_params = {
-            "db_host": "localhost",
-            "db_port": 8432,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "in_table"
+            "input_db_host": "localhost",
+            "input_db_port": 8432,
+            "input_db_database": "postgres",
+            "input_db_user": "postgres",
+            "input_db_password": "geodatatoolchainps",
+            "db_table": "georefs",
+            "where_clause": "rid=1"
         }
 
         f1 = filters.db2db.RowFilter(params=input_params)
-        f2 = filters.db2db.RowFilter(params=input_params)
 
-        filterchain = filters.basefilters_factories.create_filter_chain(params={}, fs=[f1, f2], first_input=input_params, last_output=output_params)
-
-        filterchain.run()
+        f1.run()
 
 
 if __name__ == '__main__':
