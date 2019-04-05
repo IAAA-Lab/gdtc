@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+import aux.file
 
 class Filter(ABC):
     """
@@ -93,7 +93,7 @@ class File2FileFilter(Filter):
         return f'{self.params["input_path"]}'
 
     def get_output(self):
-        return f'{self.params["output_path"]}'
+        return f'{self.params["output_path"]}' if "output_path" in self.params else aux.file.create_tmp_file()
 
 
 class File2DBFilter(Filter):
@@ -122,11 +122,11 @@ class File2DBFilter(Filter):
     def get_output(self):
         # If no output is defined, input is considered as the output
         return {
-            "db_host": self.params["output_db_host"],
-            "db_port": self.params["output_db_port"],
-            "db_database": self.params["output_db_database"],
-            "db_user": self.params["output_db_user"],
-            "db_password": self.params["output_db_password"]
+            "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
+            "db_port": self.params["output_db_port"] if "output_db_port" in self.params else self.params["input_db_port"],
+            "db_database": self.params["output_db_database"] if "output_db_database" in self.params else self.params["input_db_database"],
+            "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
+            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"]
         }
 
     
@@ -206,5 +206,5 @@ class DB2FileFilter(Filter):
         self.params['output_path'] = output
 
     def get_output(self):
-        return f'{self.params["output_path"]}'
+        return f'{self.params["output_path"]}' if "output_path" in self.params else aux.file.create_tmp_file()
 

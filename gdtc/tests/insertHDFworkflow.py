@@ -52,6 +52,51 @@ class TestGISWorkflows(unittest.TestCase):
 
         f1.run()
 
+    def test_filter_chain(self):
+        input_file = f'{self.BASEDIR}/input_files/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        last_output = {
+            "db_host": "localhost",
+            "db_port": 8432,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "geodata"
+        }
+        f1_params = {
+            "output_path": f"{self.BASEDIR}/output_files/temp.tif",
+            "layer_num": 0,
+            "dstSRS": "EPSG:4358",
+            "input_file_name": None,
+            "output_file_name": None,
+            "reproject": False,
+            "srcSRS": None,
+            "cell_res": None
+        }
+        f2_params = {
+            "output_path": f"{self.BASEDIR}/output_files/temp.sql",
+            "coord_sys": 4358, 
+            "table": "geodata",
+            "db": "postgres"
+        }
+        f3_params = {
+            "output_db_host": "localhost",
+            "output_db_port": 8432,
+            "output_db_database": "postgres",
+            "output_db_user": "postgres",
+            "output_db_password": "geodatatoolchainps",
+        }
+        f4_params = {
+            "db_table": "geodata",
+            "where_clause": "rid=1"
+        }
+
+        f1 = filters.file2file.HDF2TIF(f1_params)
+        f2 = filters.file2file.TIF2SQL(f2_params)
+        f3 = filters.file2db.ExecSQLFile(f3_params)
+        f4 = filters.db2db.RowFilter(f4_params)
+
+        filter_chain = filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3, f4], first_input=input_file, last_output=last_output)
+        filter_chain.run()
 
 if __name__ == '__main__':
     unittest.main()
