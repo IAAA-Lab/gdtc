@@ -119,7 +119,7 @@ class TestGISWorkflows(unittest.TestCase):
         filter_chain.run()
     
     def test_create_issue(self):
-        # ISSUE: Issue created automatically in pre-push step
+        # ISSUE: Issue created automatically in pre-push step of workflow
         pass
 
 if __name__ == '__main__':
