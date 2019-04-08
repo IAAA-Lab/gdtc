@@ -46,7 +46,7 @@ def create_file_2_file_task(f):
 def create_file_2_file_task_subclass(f):
     """
     Creates a Task class, that subclasses File2FileTask and runs the File2FileFilter f.
-    TODO: complete this explaining how it manages luigi Params
+    # TODO: complete this explaining how it manages luigi Params
     :param f:
     :return:
     """

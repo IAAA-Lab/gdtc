@@ -117,6 +117,10 @@ class TestGISWorkflows(unittest.TestCase):
 
         filter_chain = filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3, f4], first_input=input_file, last_output=last_output)
         filter_chain.run()
+    
+    def test_create_issue(self):
+        # ISSUE: Issue created automatically in pre-push step
+        pass
 
 if __name__ == '__main__':
     unittest.main()

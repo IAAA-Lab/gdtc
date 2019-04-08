@@ -4,7 +4,7 @@ from filters.file2file import HDF2TIF, TIF2SQL
 
 
 # Factory methods to create filters
-# TODO: Decidir si usamos el estilo diccionario de parámetros en general, o si tiene sentido tener este tipo
+# TODO: Decidir si usamos el estilo diccionario de parametros en general, o si tiene sentido tener este tipo
 # de métodos factoría para facilitar al menos los usos más comunes
 
 def hdf2tif(layer_num, input_file_name=None, output_file_name=None, reproject=False, srcSRS=None, dstSRS=None, cell_res=None):
