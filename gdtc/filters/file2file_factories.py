@@ -1,4 +1,5 @@
 import aux.file
+import aux.random_table_name as rand
 from filters.file2file import HDF2TIF, TIF2SQL
 
 
@@ -30,7 +31,7 @@ def hdf2tif(layer_num, input_file_name=None, output_file_name=None, reproject=Fa
     return HDF2TIF(params)
 
 
-def tif2sql(coord_sys, table, db, input_file_name = None, output_file_name = None):
+def tif2sql(coord_sys, db, table = None, input_file_name = None, output_file_name = None):
     """
 
     :param coord_sys:
@@ -44,7 +45,7 @@ def tif2sql(coord_sys, table, db, input_file_name = None, output_file_name = Non
     params['input_path'] = input_file_name
     params['output_path'] = aux.file.create_tmp_file() if output_file_name is None else output_file_name
     params['coord_sys'] = coord_sys
-    params['table'] = table
+    params['table'] = table if table is not None else rand.get_random_table_name()
     params['db'] = db
 
     return TIF2SQL(params)

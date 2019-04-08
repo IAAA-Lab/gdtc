@@ -3,9 +3,9 @@ import filters.file2file_factories
 from aux import db as gdtcdb
 from filters.file2db import ExecSQLFile
 
-def execsqlfile(host, port, user, password, db, sql_file_path=None):
+def execsqlfile(db_host="localhost", db_port=8432, db_user="postgres", db_password="geodatatoolchainps", db_database="postgres", sql_file_path=None):
     params = {}
-    params = gdtcdb.add_output_db_params({}, host, port, user, password, db)
+    params = gdtcdb.add_output_db_params({}, db_host, db_port, db_user, db_password, db_database)
     params['input_path'] = sql_file_path
     return ExecSQLFile(params)
 

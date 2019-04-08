@@ -93,7 +93,11 @@ class File2FileFilter(Filter):
         return f'{self.params["input_path"]}'
 
     def get_output(self):
-        return f'{self.params["output_path"]}' if "output_path" in self.params else aux.file.create_tmp_file()
+        if "output_path" not in self.params:
+            self.params["output_path"] = aux.file.create_tmp_file()
+        
+        return f'{self.params["output_path"]}'
+         
 
 
 class File2DBFilter(Filter):
