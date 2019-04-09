@@ -124,6 +124,7 @@ class File2DBFilter(Filter):
         self.params['output_db_password'] = output["db_password"]
 
     def get_output(self):
+        # TODO: review this, the output of a file2db can't be the input which is a file
         # If no output is defined, input is considered as the output
         return {
             "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
@@ -169,6 +170,8 @@ class DB2DBFilter(Filter):
         }
 
     def get_output(self):
+        # TODO: This makes sense only for the connection to the BD but not for the tables/views/queries with the
+        # actual data
         # If no output is defined, input is considered as the output
         return {
             "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
