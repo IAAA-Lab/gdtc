@@ -135,6 +135,15 @@ class File2DBFilter(Filter):
             "db_table": self.params["output_db_table"]
         }
 
+    def get_output_connection(self):
+        return {
+            "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
+            "db_port": self.params["output_db_port"] if "output_db_port" in self.params else self.params["input_db_port"],
+            "db_database": self.params["output_db_database"] if "output_db_database" in self.params else self.params["input_db_database"],
+            "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
+            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"]
+        }
+
     
 class DB2DBFilter(Filter):
     """
@@ -181,6 +190,15 @@ class DB2DBFilter(Filter):
             "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
             "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"],
             "db_table": self.params["output_db_table"] if "output_db_table" in self.params else self.params["input_db_table"]
+        }
+
+    def get_output_connection(self):
+        return {
+            "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
+            "db_port": self.params["output_db_port"] if "output_db_port" in self.params else self.params["input_db_port"],
+            "db_database": self.params["output_db_database"] if "output_db_database" in self.params else self.params["input_db_database"],
+            "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
+            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"]
         }
 
 

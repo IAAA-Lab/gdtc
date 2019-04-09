@@ -4,7 +4,7 @@ import filters.basefilters as basefilters
 
 class ExecSQLFile(basefilters.File2DBFilter):
     def run(self):
-        db = gdtcdb.Db(*self.get_output().values())
+        db = gdtcdb.Db(*self.get_output_connection().values())
 
         with open(self.params['input_path'], "r") as file:
             sql = file.read()

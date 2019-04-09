@@ -45,9 +45,9 @@ class TestGISWorkflows(unittest.TestCase):
             "input_db_database": "postgres",
             "input_db_user": "postgres",
             "input_db_password": "geodatatoolchainps",
-            "db_table": "georefs",
+            "input_db_table": "georefs",
             "where_clause": "rid=1",
-            "db_table_out": "geodata_2"
+            "output_db_table": "geodata_2"
         }
 
         f1 = filters.db2db.RowFilter(params=input_params)
@@ -76,7 +76,8 @@ class TestGISWorkflows(unittest.TestCase):
         f2_params = {
             "coord_sys": 4358, 
             "table": "geodata",
-            "db": "postgres"
+            "db": "postgres",
+            "table": "gdtc_table"
         }
         f3_params = {
             "output_db_host": "localhost",
@@ -84,6 +85,7 @@ class TestGISWorkflows(unittest.TestCase):
             "output_db_database": "postgres",
             "output_db_user": "postgres",
             "output_db_password": "geodatatoolchainps",
+            "output_db_table": "gdtc_table"
         }
         f4_params = {
             "db_table": "geodata",
@@ -111,9 +113,12 @@ class TestGISWorkflows(unittest.TestCase):
         }
 
         f1 = filters.file2file_factories.hdf2tif(layer_num=0, dstSRS="EPSG:4358")
-        f2 = filters.file2file_factories.tif2sql(coord_sys = 4358, db ="postgres")
-        f3 = filters.file2db_factories.execsqlfile()
-        f4 = filters.db2db_factories.rowfilter(db_table="geodata", where_clause="rid=1")
+        # TODO: Think about tif2sql filter, which is file2file filter but should pass table parameter to the next
+        # filter. Now it's not happenning because file2file filter output gives just a path.
+        # May be we have to overwrite get_output() method
+        f2 = filters.file2file_factories.tif2sql(coord_sys = 4358, db ="postgres", table='gdtc_table')
+        f3 = filters.file2db_factories.execsqlfile(output_db_table='gdtc_table')
+        f4 = filters.db2db_factories.rowfilter(where_clause="rid=1")
 
         filter_chain = filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3, f4], first_input=input_file, last_output=last_output)
         filter_chain.run()
