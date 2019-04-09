@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.3.0">
-  <zoom_level>9</zoom_level>
+  <zoom_level>10</zoom_level>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>819</x>
-      <y>504</y>
-      <w>243</w>
-      <h>81</h>
+      <x>1220</x>
+      <y>560</y>
+      <w>270</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>luigi
 --
@@ -17,10 +17,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1098</x>
-      <y>243</y>
-      <w>126</w>
-      <h>63</h>
+      <x>1530</x>
+      <y>270</y>
+      <w>140</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>gdtc.tasks
 --
@@ -31,10 +31,10 @@ bg=#FFAAAA
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>945</x>
-      <y>297</y>
-      <w>180</w>
-      <h>243</h>
+      <x>1360</x>
+      <y>330</y>
+      <w>200</w>
+      <h>270</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>14.0;250.0;180.0;10.0</additional_attributes>
@@ -42,10 +42,10 @@ bg=#FFAAAA
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1377</x>
-      <y>504</y>
-      <w>126</w>
-      <h>63</h>
+      <x>1840</x>
+      <y>560</y>
+      <w>140</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>osgeo.gdal
 --
@@ -55,10 +55,10 @@ bg=#99CCFF</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>891</x>
-      <y>243</y>
-      <w>126</w>
-      <h>63</h>
+      <x>1300</x>
+      <y>270</y>
+      <w>140</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>gdtc.targets
 --
@@ -69,10 +69,10 @@ bg=#FFFF66</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>882</x>
-      <y>297</y>
-      <w>81</w>
-      <h>225</h>
+      <x>1290</x>
+      <y>330</y>
+      <w>90</w>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>14.0;230.0;70.0;10.0</additional_attributes>
@@ -80,10 +80,10 @@ bg=#FFFF66</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1278</x>
-      <y>243</y>
-      <w>144</w>
-      <h>63</h>
+      <x>1730</x>
+      <y>270</y>
+      <w>160</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>gdtc.filters
 --
@@ -93,10 +93,10 @@ bg=#FF88FF</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>729</x>
-      <y>189</y>
-      <w>846</w>
-      <h>225</h>
+      <x>1120</x>
+      <y>210</y>
+      <w>940</w>
+      <h>250</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Layer&gt;&gt; WorkflowElements
 lt=.
@@ -107,10 +107,10 @@ layer=-10</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>729</x>
+      <x>1120</x>
       <y>0</y>
-      <w>846</w>
-      <h>153</h>
+      <w>940</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Layer&gt;&gt; Application
 --
@@ -125,10 +125,10 @@ valign=top</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>729</x>
-      <y>441</y>
-      <w>846</w>
-      <h>162</h>
+      <x>1120</x>
+      <y>490</y>
+      <w>940</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Layer&gt;&gt; Infrastructure
 lt=.
@@ -139,10 +139,10 @@ layer=-10</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1332</x>
-      <y>297</y>
-      <w>90</w>
-      <h>225</h>
+      <x>1790</x>
+      <y>330</y>
+      <w>100</w>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>80.0;230.0;10.0;10.0</additional_attributes>
@@ -150,10 +150,10 @@ layer=-10</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1008</x>
-      <y>270</y>
-      <w>108</w>
-      <h>27</h>
+      <x>1430</x>
+      <y>300</y>
+      <w>120</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
@@ -161,10 +161,10 @@ layer=-10</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>828</x>
-      <y>72</y>
-      <w>144</w>
-      <h>27</h>
+      <x>1230</x>
+      <y>80</y>
+      <w>160</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>ASpecificWorkflow</panel_attributes>
     <additional_attributes/>
@@ -172,10 +172,10 @@ layer=-10</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>846</x>
-      <y>540</y>
-      <w>72</w>
-      <h>27</h>
+      <x>1250</x>
+      <y>600</y>
+      <w>80</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>/Task/
 layer=1
@@ -185,10 +185,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>855</x>
-      <y>90</y>
-      <w>27</w>
-      <h>468</h>
+      <x>1260</x>
+      <y>100</y>
+      <w>30</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;500.0;10.0;10.0</additional_attributes>
@@ -196,10 +196,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1152</x>
-      <y>144</y>
-      <w>27</w>
-      <h>99</h>
+      <x>1590</x>
+      <y>160</y>
+      <w>30</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
@@ -207,10 +207,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1170</x>
-      <y>405</y>
-      <w>27</w>
-      <h>90</h>
+      <x>1610</x>
+      <y>450</y>
+      <w>30</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
@@ -218,10 +218,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>180</x>
-      <y>837</y>
-      <w>747</w>
-      <h>450</h>
+      <x>510</x>
+      <y>930</y>
+      <w>830</w>
+      <h>500</h>
     </coordinates>
     <panel_attributes>gdtc.filters.basefilters
 --
@@ -232,10 +232,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>387</x>
-      <y>1404</y>
-      <w>90</w>
-      <h>63</h>
+      <x>740</x>
+      <y>1560</y>
+      <w>100</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>HDF2TIF
 --
@@ -246,10 +246,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>495</x>
-      <y>1404</y>
-      <w>90</w>
-      <h>63</h>
+      <x>860</x>
+      <y>1560</y>
+      <w>100</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>TIF2SQL
 --
@@ -260,10 +260,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1044</x>
-      <y>1287</y>
-      <w>405</w>
-      <h>162</h>
+      <x>1470</x>
+      <y>1430</y>
+      <w>450</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>gdtc.tasks.basetasks
 --
@@ -275,10 +275,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1134</x>
-      <y>1485</y>
-      <w>72</w>
-      <h>27</h>
+      <x>1570</x>
+      <y>1650</y>
+      <w>80</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>/Task/
 layer=1
@@ -288,15 +288,17 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>423</x>
-      <y>891</y>
-      <w>90</w>
-      <h>63</h>
+      <x>700</x>
+      <y>990</y>
+      <w>180</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>/Filter/
 --
 -params
 --
+/+input (GET/SET)/
+/+output (GET/SET)/
 /+run()/
 </panel_attributes>
     <additional_attributes/>
@@ -304,25 +306,23 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>378</x>
-      <y>1026</y>
-      <w>171</w>
-      <h>63</h>
+      <x>730</x>
+      <y>1170</y>
+      <w>190</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>/File2FileFilter/
 --
--input_path (GET/SET)
--output_path (GET/SET)
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>459</x>
-      <y>945</y>
-      <w>27</w>
-      <h>99</h>
+      <x>820</x>
+      <y>1080</y>
+      <w>30</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
@@ -330,10 +330,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>495</x>
-      <y>1143</y>
-      <w>135</w>
-      <h>81</h>
+      <x>860</x>
+      <y>1270</y>
+      <w>150</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>FilterChain
 --
@@ -346,10 +346,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>504</x>
-      <y>909</y>
-      <w>81</w>
-      <h>252</h>
+      <x>870</x>
+      <y>1010</y>
+      <w>90</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;70.0;10.0;70.0;260.0</additional_attributes>
@@ -357,24 +357,23 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>198</x>
-      <y>1026</y>
-      <w>162</w>
-      <h>63</h>
+      <x>530</x>
+      <y>1170</y>
+      <w>180</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>/File2DBFilter/
 --
--input_path (GET/SET)
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
-      <y>945</y>
-      <w>198</w>
-      <h>99</h>
+      <x>610</x>
+      <y>1080</y>
+      <w>220</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>200.0;10.0;200.0;50.0;10.0;50.0;10.0;90.0</additional_attributes>
@@ -382,10 +381,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>342</x>
-      <y>1341</y>
-      <w>324</w>
-      <h>153</h>
+      <x>690</x>
+      <y>1490</y>
+      <w>360</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>gdtc.filters.file2file
 --
@@ -396,32 +395,32 @@ layer=-1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>396</x>
-      <y>1080</y>
-      <w>63</w>
-      <h>342</h>
+      <x>750</x>
+      <y>1230</y>
+      <w>70</w>
+      <h>350</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;360.0</additional_attributes>
+    <additional_attributes>10.0;10.0;50.0;330.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>414</x>
-      <y>1080</y>
-      <w>162</w>
-      <h>342</h>
+      <x>770</x>
+      <y>1230</y>
+      <w>180</w>
+      <h>350</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;160.0;360.0</additional_attributes>
+    <additional_attributes>10.0;10.0;160.0;330.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>0</x>
-      <y>1341</y>
-      <w>324</w>
-      <h>153</h>
+      <x>310</x>
+      <y>1490</y>
+      <w>360</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>gdtc.filters.file2db
 --
@@ -432,10 +431,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>54</x>
-      <y>1404</y>
-      <w>90</w>
-      <h>63</h>
+      <x>370</x>
+      <y>1560</y>
+      <w>100</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>ExecSQLFile
 --
@@ -446,21 +445,21 @@ layer=-1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>81</x>
-      <y>1080</y>
-      <w>198</w>
-      <h>342</h>
+      <x>400</x>
+      <y>1230</y>
+      <w>220</w>
+      <h>350</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>200.0;10.0;10.0;360.0</additional_attributes>
+    <additional_attributes>200.0;10.0;10.0;330.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>675</x>
-      <y>1179</y>
-      <w>135</w>
-      <h>81</h>
+      <x>1060</x>
+      <y>1310</y>
+      <w>150</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>file2file_factories
 --
@@ -473,10 +472,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>666</x>
-      <y>1008</y>
-      <w>135</w>
-      <h>81</h>
+      <x>1050</x>
+      <y>1120</y>
+      <w>150</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>file2db_factories
 --
@@ -488,10 +487,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>972</x>
-      <y>882</y>
-      <w>405</w>
-      <h>207</h>
+      <x>1390</x>
+      <y>980</y>
+      <w>450</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>gdtc.tasks
 --
@@ -503,10 +502,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1071</x>
-      <y>1350</y>
-      <w>234</w>
-      <h>63</h>
+      <x>1500</x>
+      <y>1500</y>
+      <w>260</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>File2FileTask
 --
@@ -517,10 +516,10 @@ _+output_path : luigi.Parameter()_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1161</x>
-      <y>1404</y>
-      <w>27</w>
-      <h>99</h>
+      <x>1600</x>
+      <y>1560</y>
+      <w>30</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
@@ -528,10 +527,10 @@ _+output_path : luigi.Parameter()_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1017</x>
-      <y>936</y>
-      <w>270</w>
-      <h>117</h>
+      <x>1440</x>
+      <y>1040</y>
+      <w>300</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>workflowbuilder
 --
@@ -547,10 +546,10 @@ _+output_path : luigi.Parameter()_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1215</x>
-      <y>279</y>
-      <w>81</w>
-      <h>27</h>
+      <x>1660</x>
+      <y>310</y>
+      <w>90</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
@@ -558,10 +557,10 @@ _+output_path : luigi.Parameter()_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>486</x>
-      <y>864</y>
-      <w>144</w>
-      <h>297</h>
+      <x>850</x>
+      <y>960</y>
+      <w>160</w>
+      <h>330</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
 m2=1..*</panel_attributes>
@@ -570,10 +569,10 @@ m2=1..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1071</x>
-      <y>1044</y>
-      <w>207</w>
-      <h>324</h>
+      <x>1500</x>
+      <y>1160</y>
+      <w>230</w>
+      <h>360</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;creates, subclasses...&gt;&gt;</panel_attributes>
@@ -582,10 +581,10 @@ m2=1..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>621</x>
-      <y>1017</y>
-      <w>414</w>
-      <h>189</h>
+      <x>1000</x>
+      <y>1130</y>
+      <w>460</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
@@ -594,10 +593,10 @@ m2=1..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>504</x>
-      <y>900</y>
-      <w>531</w>
-      <h>81</h>
+      <x>870</x>
+      <y>1000</y>
+      <w>590</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
@@ -606,10 +605,10 @@ m2=1..*</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>693</x>
-      <y>1323</y>
-      <w>297</w>
-      <h>198</h>
+      <x>1080</x>
+      <y>1470</y>
+      <w>330</w>
+      <h>220</h>
     </coordinates>
     <panel_attributes>En líneas generales, una entrada dejada
 a None significa que queremos ese filtro
@@ -631,14 +630,212 @@ sí.
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1449</x>
-      <y>342</y>
-      <w>117</w>
-      <h>63</h>
+      <x>1920</x>
+      <y>380</y>
+      <w>130</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>gdtc.aux
 --
 bg=#999999</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>570</x>
+      <y>1320</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>/DB2DBFilter/
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>1080</y>
+      <w>180</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>160.0;10.0;90.0;190.0;20.0;200.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>350</x>
+      <y>1910</y>
+      <w>250</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Docker Container&gt;&gt;
+gdtc</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>640</x>
+      <y>1970</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;artifact&gt;&gt;
+PostGIS vX</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>370</x>
+      <y>2030</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;artifact&gt;&gt;
+luigi</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>370</x>
+      <y>2090</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;artifact&gt;&gt;
+postgresql-client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>630</x>
+      <y>1910</y>
+      <w>250</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Docker Container&gt;&gt;
+mdillon/postgis</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>370</x>
+      <y>1970</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;artifact&gt;&gt;
+GDAL=2.2.4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>310</x>
+      <y>1810</y>
+      <w>730</w>
+      <h>580</h>
+    </coordinates>
+    <panel_attributes>localhost
+layer=-1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>630</x>
+      <y>2100</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;File&gt;&gt;
+.env
+--
+LOCAL_IN_VOL
+POSTGIS_HOST
+...</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>840</x>
+      <y>2100</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;File&gt;&gt;
+docker-compose.yml
+--
+LOCAL_IN_VOL
+POSTGIS_HOST
+...</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>870</x>
+      <y>1950</y>
+      <w>140</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>1880</y>
+      <w>460</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0;430.0;10.0;440.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>490</x>
+      <y>2280</y>
+      <w>250</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;File&gt;&gt;
+docker-launcher
+--
+docker-compose up -d</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>2210</y>
+      <w>160</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>2210</y>
+      <w>70</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;70.0</additional_attributes>
   </element>
 </diagram>
