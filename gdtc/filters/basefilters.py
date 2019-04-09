@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
+
+import aux.db
 import aux.file
-import aux.random_table_name as rand
 
 class Filter(ABC):
     """
@@ -123,7 +124,7 @@ class File2DBFilter(Filter):
         self.params['output_db_database'] = output["db_database"]
         self.params['output_db_user'] = output["db_user"]
         self.params['output_db_password'] = output["db_password"]
-        self.params['output_db_table'] = output["db_table"] if "db_table" in output else rand.get_random_table_name()
+        self.params['output_db_table'] = output["db_table"] if "db_table" in output else aux.db.get_random_table_name()
 
     def get_output(self):
         return {
@@ -170,7 +171,7 @@ class DB2DBFilter(Filter):
         self.params['output_db_database'] = output["db_database"]
         self.params['output_db_user'] = output["db_user"]
         self.params['output_db_password'] = output["db_password"]
-        self.params['output_db_table'] = output["db_table"] if "db_table" in output else rand.get_random_table_name()
+        self.params['output_db_table'] = output["db_table"] if "db_table" in output else aux.db.get_random_table_name()
     
     def get_input(self):
         return {

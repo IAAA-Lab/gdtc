@@ -1,13 +1,14 @@
 # Author: Víctor Fernández Melic
 # Project: IAAA GeoData Toolchain
-# Class: Db
-# Description: A Db is a class that encapsulates the parameters of the DB and
-#              any information relative to the location and result of data.
+# Auxiliary, database-related, classes and functions
+import uuid
 
 import psycopg2
 
 class Db():
-
+    """
+    Db is a class that encapsulates the parameters of a PostgreSQL DB.
+    """
     def __init__(self, host, port, database, user, password):
         self.host = host
         self.port = port
@@ -48,3 +49,10 @@ def add_output_db_params(params, host, port, user, password, db):
     params['output_db_password'] = password
     params['output_db_database'] = db
     return params
+
+
+def get_random_table_name():
+    """
+    :return: A random table name
+    """
+    return str(uuid.uuid4())
