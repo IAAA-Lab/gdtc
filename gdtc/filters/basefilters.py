@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import aux.file
+import aux.random_table_name as rand
 
 class Filter(ABC):
     """
@@ -124,14 +125,12 @@ class File2DBFilter(Filter):
         self.params['output_db_password'] = output["db_password"]
 
     def get_output(self):
-        # TODO: review this, the output of a file2db can't be the input which is a file
-        # If no output is defined, input is considered as the output
         return {
-            "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
-            "db_port": self.params["output_db_port"] if "output_db_port" in self.params else self.params["input_db_port"],
-            "db_database": self.params["output_db_database"] if "output_db_database" in self.params else self.params["input_db_database"],
-            "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
-            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"]
+            "db_host": self.params["output_db_host"],
+            "db_port": self.params["output_db_port"],
+            "db_database": self.params["output_db_database"],
+            "db_user": self.params["output_db_user"],
+            "db_password": self.params["output_db_password"]
         }
 
     
@@ -150,8 +149,9 @@ class DB2DBFilter(Filter):
         self.params['input_db_host'] = input_["db_host"]
         self.params['input_db_port'] = input_["db_port"]
         self.params['input_db_database'] = input_["db_database"]
+        self.params['input_db_database'] = input_["db_database"]
         self.params['input_db_user'] = input_["db_user"]
-        self.params['input_db_password'] = input_["db_password"]
+        self.params['input_db_table'] = input_["db_table"]
 
     def set_output(self, output):
         self.params['output_db_host'] = output["db_host"]
@@ -159,6 +159,7 @@ class DB2DBFilter(Filter):
         self.params['output_db_database'] = output["db_database"]
         self.params['output_db_user'] = output["db_user"]
         self.params['output_db_password'] = output["db_password"]
+        self.params['output_db_table'] = output["db_table"]
     
     def get_input(self):
         return {
@@ -166,19 +167,21 @@ class DB2DBFilter(Filter):
             "db_port": self.params["input_db_port"],
             "db_database": self.params["input_db_database"],
             "db_user": self.params["input_db_user"],
-            "db_password": self.params["input_db_password"]
+            "db_password": self.params["input_db_password"],
+            "db_table": self.params["input_db_table"],
         }
 
     def get_output(self):
-        # TODO: This makes sense only for the connection to the BD but not for the tables/views/queries with the
-        # actual data
-        # If no output is defined, input is considered as the output
+        if "output_db_table" not in self.params:
+            self.params["output_db_table"] = rand.get_random_table_name()
+
         return {
             "db_host": self.params["output_db_host"] if "output_db_host" in self.params else self.params["input_db_host"],
             "db_port": self.params["output_db_port"] if "output_db_port" in self.params else self.params["input_db_port"],
             "db_database": self.params["output_db_database"] if "output_db_database" in self.params else self.params["input_db_database"],
             "db_user": self.params["output_db_user"] if "output_db_user" in self.params else self.params["input_db_user"],
-            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"]
+            "db_password": self.params["output_db_password"] if "output_db_password" in self.params else self.params["input_db_password"],
+            "db_table": self.params["output_db_table"]
         }
 
 
