@@ -1,3 +1,5 @@
+# Module for classes and functions to manipulate coordinate systems and their definitions
+
 class Srs():
     """
     Encapsulates SRS/CRS definitions in the different formats used by the different underlying geolibraries
