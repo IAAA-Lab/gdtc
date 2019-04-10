@@ -15,7 +15,7 @@ class ExecSQLFile(basefilters.File2DBFilter):
 
         db.execute_query(sql)
 
-class SHPtoDB(basefilters.File2DBFilter):
+class SHP2DB(basefilters.File2DBFilter):
     def run(self):
         # In general, we always want errors as exceptions. Having to enable them by hand is a "Python Gotcha" in gdal
         # see: https://trac.osgeo.org/gdal/wiki/PythonGotchas
@@ -98,5 +98,3 @@ class SHPtoDB(basefilters.File2DBFilter):
         # This is required to close, and for the output to save, the data sources
         input_data_source = None
         conn = None
-
-
