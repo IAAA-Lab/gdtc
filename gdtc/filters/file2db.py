@@ -29,14 +29,24 @@ class SHPtoDB(basefilters.File2DBFilter):
         # Find out the geometry type of the input to use it in the output
         # I am assuming that the input has at least one feature, and that all features are of the same
         # type (with shapefiles this is always so)
-        #feature = input_layer.GetNextFeature()
-        #geom = feature.GetGeometryRef()
-        #geometry_type = geom.GetGeometryName()
         geometry_type = input_layer.GetGeomType()
 
+        # Warning: the shp format advertises polygons (ogr.wkbPolygon) even when there are multipolygons, and that
+        # would make the insertion in PostGIS fail, so we will have to check and "upgrade" them to multipolygons when
+        # loading to postgis
+        if geometry_type == ogr.wkbPolygon:
+            geometry_type = ogr.wkbMultiPolygon
+
         # If they are defined, they must be a string that can be processed with the Srs class
-        input_srs_string = self.params['input_srs']
-        output_srs_string = self.params['output_srs']
+        if 'input_srs' in self.params:
+            input_srs_string = self.params['input_srs']
+        else:
+            input_srs_string = None
+
+        if 'output_srs' in self.params:
+            output_srs_string = self.params['output_srs']
+        else:
+            output_srs_string = None
 
         # If input_srs is given use that. Otherwise, take the SRS of the input dataset
         if input_srs_string != None:
@@ -52,7 +62,9 @@ class SHPtoDB(basefilters.File2DBFilter):
         else:
             output_srs = input_srs
 
-        db = gdtcdb.Db(*self.get_output().values())
+        db = gdtcdb.Db(self.params['output_db_host'], self.params['output_db_port'],
+                       self.params['output_db_database'], self.params['output_db_user'],
+                       self.params['output_db_password'])
         db_connection_string = db.to_ogr_connection_string()
         conn = ogr.Open(db_connection_string)
         # TODO: Consider a mode where OVERWRITE is not always YES?
@@ -76,6 +88,9 @@ class SHPtoDB(basefilters.File2DBFilter):
 
             # Set geometry
             geom = input_feature.GetGeometryRef()
+            # Upgrade to multipolygon if polygon
+            if geom.GetGeometryType() == ogr.wkbPolygon:
+                geom = ogr.ForceToMultiPolygon(geom)
             output_feature.SetGeometry(geom.Clone())
             # Add new feature to output Layer
             output_layer.CreateFeature(output_feature)
