@@ -13,6 +13,7 @@ class Db():
         self.database = database
         self.user = user
         self.password = password
+        self.connection = None
 
     def connect(self):
         """
@@ -31,9 +32,12 @@ class Db():
         return self.connection
 
     def execute_query(self, sql):
-        with self.connect().cursor() as cur:
+        conn = self.connection if self.connection is not None else self.connect()
+
+        with conn.cursor() as cur:
             cur.execute(sql)
             self.connection.commit()
+
 
     def to_ogr_connection_string(self):
         # PostgreSQL specific. But, at least for now, Db class is PostgreSQL specific

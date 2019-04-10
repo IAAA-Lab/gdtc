@@ -1,6 +1,5 @@
 import aux.db
 import aux.file
-import aux.random_table_name as rand
 from filters.file2file import HDF2TIF, TIF2SQL
 
 
