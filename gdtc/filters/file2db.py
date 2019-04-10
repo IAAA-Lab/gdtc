@@ -112,6 +112,5 @@ class CSV2DB(basefilters.File2DBFilter):
                        self.params['output_db_database'], self.params['output_db_user'],
                        self.params['output_db_password'])
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
-
         input_csv = pd.read_csv(self.get_input(), **options)
         input_csv.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
