@@ -54,7 +54,7 @@ class Db():
         params[f'{prefix}db_port'] = self.port
         params[f'{prefix}db_user'] = self.user
         params[f'{prefix}db_password'] = self.password
-        params[f'{prefix}db_database'] = self.db
+        params[f'{prefix}db_database'] = self.database
         return params
 
 def add_output_db_params(params, host, port, user, password, db):
