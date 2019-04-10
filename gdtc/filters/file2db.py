@@ -5,6 +5,8 @@ import filters.basefilters as basefilters
 from osgeo import ogr
 from osgeo import osr
 from osgeo import gdal
+import pandas as pd
+import sqlalchemy
 
 class ExecSQLFile(basefilters.File2DBFilter):
     def run(self):
@@ -15,7 +17,7 @@ class ExecSQLFile(basefilters.File2DBFilter):
 
         db.execute_query(sql)
 
-class SHPtoDB(basefilters.File2DBFilter):
+class SHP2DB(basefilters.File2DBFilter):
     def run(self):
         # In general, we always want errors as exceptions. Having to enable them by hand is a "Python Gotcha" in gdal
         # see: https://trac.osgeo.org/gdal/wiki/PythonGotchas
@@ -99,4 +101,17 @@ class SHPtoDB(basefilters.File2DBFilter):
         input_data_source = None
         conn = None
 
+class CSV2DB(basefilters.File2DBFilter):
+    def run(self, **options):
+        """
+        :param options: optionally, any params that `pandas.read_csv <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html>`_
+        can take
+        :return:
+        """
+        db = gdtcdb.Db(self.params['output_db_host'], self.params['output_db_port'],
+                       self.params['output_db_database'], self.params['output_db_user'],
+                       self.params['output_db_password'])
+        sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
 
+        input = pd.read_csv(self.get_input(), options)
+        input.to_sql(self.get_output(), con=sqlalchemy_engine, if_exists='replace')
