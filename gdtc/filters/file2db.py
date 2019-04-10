@@ -15,7 +15,6 @@ class ExecSQLFile(basefilters.File2DBFilter):
 
         db.execute_query(sql)
 
-
 class SHPtoDB(basefilters.File2DBFilter):
     def run(self):
         # In general, we always want errors as exceptions. Having to enable them by hand is a "Python Gotcha" in gdal

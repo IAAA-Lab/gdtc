@@ -12,5 +12,3 @@ class Srs():
 
     def as_epsg_number(self):
         return self.epsg_string.split(':')[1]
-
-
