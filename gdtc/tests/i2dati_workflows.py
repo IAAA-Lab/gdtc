@@ -1,26 +1,21 @@
 import luigi
 import unittest
-import os
-
-import filters.basefilters_factories
-import filters.file2db_factories
-import filters.file2file_factories
-import filters.db2db_factories
-import filters.db2db
+from filters.file2db import SHPtoDB
+import gdtc.aux.db as gdtcdb
 import tasks.workflowbuilder as wfb
 
 class I2DATIWorkflowsTests(unittest.TestCase):
     def test_population(self):
+        params = gdtcdb.add_output_db_params({}, 'localhost', 5432, user='postgres', password='mysecretpassword',
+                                             db='posgres')
 
+        f1 = SHPtoDB(params={})
+        f1.set_input("""
+        /home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data
+        /Data/recintos_municipales_inspire_peninbal_etrs89/recintos_municipales_inspire_peninbal_etrs89.shp""")
+        f1.set_output()
 
+        # latlon_etrs_89 = gdtcsrs.Srs('EPSG:4258') # Iberian Peninsula and Balearic Islands
+        # latlon_wgs_84 = gdtcsrs.Srs('EPSG:4326') # Canary Islands. For proj.4 this is equivalent to the 4258, :-/
 
-        # This creates a new Task, that subclasses File2FileTask with some additional parameters
-        f3 = TestFile2File(params={'input_path': aux.file.create_tmp_file(), 'coco': 24, 'foobar': 'minion'})
-        f3.set_output_path(aux.file.create_tmp_file())
-        ATaskClass = wfb.create_file_2_file_task_subclass(f3)
-        # As I have created a new Task class, I can provide new values for the parameters before
-        # runnning it (luigi style parameters, I could set them from the command line for instance)
-        e = ATaskClass(input_path=f3.get_input_path(), output_path=f3.get_output_path(), coco="25", foobar='patata')
-        self.assertEqual(e.coco, '25')
-        self.assertEqual(e.foobar, 'patata')
-        self.assertTrue(luigi.build([e]))
+        f1.run()

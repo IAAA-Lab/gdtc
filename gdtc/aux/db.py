@@ -41,6 +41,7 @@ class Db():
         # PostgreSQL specific. But, at least for now, Db class is PostgreSQL specific
         return f'PG: host={self.host} port={self.port} dbname={self.database} user={self.user} password={self.password}'
 
+
 # TODO: create an object for database stuff? maybe a dictionary that can be mixed with others?
 def add_output_db_params(params, host, port, user, password, db):
     params['output_db_host'] = host
