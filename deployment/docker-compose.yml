@@ -1,7 +1,7 @@
 version: '3'
 services:
   gdtc:
-    image: gdtc/latest:latest
+    image: gdtc/base:latest
     container_name: gdtc
     environment: 
       - POSTGIS_HOST=${POSTGIS_HOST}
