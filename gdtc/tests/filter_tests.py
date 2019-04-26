@@ -38,22 +38,6 @@ class TestGISWorkflows(unittest.TestCase):
                                                        host="localhost", port=8432, user="postgres", password="geodatatoolchainps", db="postgres")
         filterchain.run()
 
-    def test_row_filter(self):
-        input_params = {
-            "input_db_host": "localhost",
-            "input_db_port": 8432,
-            "input_db_database": "postgres",
-            "input_db_user": "postgres",
-            "input_db_password": "geodatatoolchainps",
-            "input_db_table": "georefs",
-            "where_clause": "rid=1",
-            "output_db_table": "geodata_2"
-        }
-
-        f1 = filters.db2db.RowFilter(params=input_params)
-
-        f1.run()
-
     def test_filter_chain(self):
         input_file = f'{self.BASEDIR}/input_files/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
         last_output = {
@@ -123,8 +107,10 @@ class TestGISWorkflows(unittest.TestCase):
         filter_chain = filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3, f4], first_input=input_file, last_output=last_output)
         filter_chain.run()
     
-    def test_create_issue(self):
-        # ISSUE: Issue created automatically in pre-push step of workflow
+    def test_shp2db_factories(self):
+        pass    
+    
+    def test_csv2db_factories(self):
         pass
 
 if __name__ == '__main__':

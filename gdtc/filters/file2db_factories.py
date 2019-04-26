@@ -2,7 +2,7 @@ import aux.db
 import filters.basefilters_factories
 import filters.file2file_factories
 from aux import db as gdtcdb
-from filters.file2db import ExecSQLFile
+from filters.file2db import ExecSQLFile, SHP2DB, CSV2DB
 
 def execsqlfile(output_db_table=None, db_host="localhost", db_port=8432, db_user="postgres", db_password="geodatatoolchainps", db_database="postgres", sql_file_path=None):
     params = {}
@@ -24,3 +24,19 @@ def hdf2db(input_file_name, layer_num, coord_sys, table, host, port, user, passw
                                                                           first_input = input_file_name, last_output=f3.get_output_connection())
 
     return hdf2db_chain
+
+def shp2db(input_srs, output_srs, output_db_host, output_db_port, output_db_database, output_db_user, output_db_password, output_db_table):
+    params = {}
+    params = gdtcdb.add_output_db_params({}, output_db_host, output_db_port, output_db_user, output_db_password, output_db_database)
+    params['input_srs'] = output_db_password
+    params['output_srs'] = output_db_host
+    params['output_db_table'] = output_db_table if output_db_table is not None else gdtcdb.get_random_table_name()
+
+    return SHP2DB(params)
+
+def csv2db(input_srs, output_srs, output_db_host, output_db_port, output_db_database, output_db_user, output_db_password, output_db_table):
+    params = {}
+    params = gdtcdb.add_output_db_params({}, output_db_host, output_db_port, output_db_user, output_db_password, output_db_database)
+    params['output_db_table'] = output_db_table if output_db_table is not None else gdtcdb.get_random_table_name()
+
+    return CSV2DB(params)

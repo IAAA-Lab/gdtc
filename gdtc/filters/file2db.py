@@ -63,9 +63,7 @@ class SHP2DB(basefilters.File2DBFilter):
         else:
             output_srs = input_srs
 
-        db = gdtcdb.Db(self.params['output_db_host'], self.params['output_db_port'],
-                       self.params['output_db_database'], self.params['output_db_user'],
-                       self.params['output_db_password'])
+        db = gdtcdb.Db(*self.get_output_connection().values())
         db_connection_string = db.to_ogr_connection_string()
         conn = ogr.Open(db_connection_string)
         # TODO: Consider a mode where OVERWRITE is not always YES?
@@ -108,9 +106,7 @@ class CSV2DB(basefilters.File2DBFilter):
         can take
         :return:
         """
-        db = gdtcdb.Db(self.params['output_db_host'], self.params['output_db_port'],
-                       self.params['output_db_database'], self.params['output_db_user'],
-                       self.params['output_db_password'])
+        db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_csv = pd.read_csv(self.get_input(), **options)
         input_csv.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
