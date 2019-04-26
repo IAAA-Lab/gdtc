@@ -1,7 +1,10 @@
-from osgeo import gdal
 import subprocess
 
-from filters.basefilters import File2FileFilter
+from osgeo import gdal
+import geopandas
+import matplotlib.pyplot as plt
+
+from gdtc.filters.basefilters import File2FileFilter
 
 
 class HDF2TIF(File2FileFilter):
@@ -39,3 +42,9 @@ class TIF2SQL(File2FileFilter):
         cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_input()}\" -F -d {self.params["table"]} > \"{self.get_output()}\"'
         subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
         return self.get_output()
+
+class PlotMap(File2FileFilter):
+    def run(self):
+        map = geopandas.read_file(self.get_input())
+        map.plot()
+        plt.savefig(self.get_output())

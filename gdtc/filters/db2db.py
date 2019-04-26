@@ -1,5 +1,5 @@
 import filters.basefilters as basefilters
-import aux.db as gdtcdb
+import gdtc.aux.db as gdtcdb
 
 # TODO: Create random table name generator
 
