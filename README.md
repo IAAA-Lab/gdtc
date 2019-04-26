@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/IAAA-Lab/gdtc.svg?branch=master)](https://travis-ci.org/IAAA-Lab/gdtc)
+
 # IAAA GeoData ToolChain (GDTC)
 This is a library to create ETL (Extraction, Transformation and Load) pipelines in Python, with a strong emphasis on geographic data transformation.
 GDTC will leverage existing geographic data processing tools (PostGIS, GDAL, etc.) and will provide a uniform access to their capabilities.
