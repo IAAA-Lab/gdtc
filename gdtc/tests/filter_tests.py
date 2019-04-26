@@ -7,7 +7,9 @@ import filters.file2db_factories
 import filters.file2file_factories
 import filters.db2db_factories
 import filters.db2db
+import filters.file2file
 import tasks.workflowbuilder as wfb
+import geopandas
 
 class TestGISWorkflows(unittest.TestCase):
 
@@ -112,6 +114,13 @@ class TestGISWorkflows(unittest.TestCase):
     
     def test_csv2db_factories(self):
         pass
+
+    def test_plot_map_from_postgis(self):
+        params = {}
+        params['input_path'] = f'{self.BASEDIR}input_files/110m_physical/ne_110m_coastline.shp'
+        params['output_path'] = f'{self.BASEDIR}output_files/ne_110m_coastline.png'
+        f1 = filters.file2file.PlotMap(params)
+        f1.run()
 
 if __name__ == '__main__':
     unittest.main()

@@ -125,3 +125,5 @@ sandbox/
 .vscode/
 tmp/
 .idea/
+input_files/
+output_files/
