@@ -1,9 +1,10 @@
 import unittest
+
 import luigi
 
-import filters.basefilters
-import filters.basefilters_factories
-import aux.file
+import gdtc.filters.basefilters
+import gdtc.filters.basefilters_factories
+import gdtc.aux.file
 import gdtc.tasks.workflowbuilder as wfb
 
 # TODO: This tests require that luigid is running, it would be nice to check this somehow
@@ -23,19 +24,19 @@ class TestWorkFlowBuilding(unittest.TestCase):
 
     def test_file_2_file_task(self):
         f1 = TestFile2File(params={})
-        f1.set_input(aux.file.create_tmp_file())
-        f1.set_output(aux.file.create_tmp_file())
+        f1.set_input(gdtc.aux.file.create_tmp_file())
+        f1.set_output(gdtc.aux.file.create_tmp_file())
         c = wfb.create_file_2_file_task(f1)
         self.assertTrue(luigi.build([c]))
 
     def test_filter_chain(self):
         f1 = TestFile2File(params={})
-        f1.set_input(aux.file.create_tmp_file())
-        f1.set_output(aux.file.create_tmp_file())
+        f1.set_input(gdtc.aux.file.create_tmp_file())
+        f1.set_output(gdtc.aux.file.create_tmp_file())
         f2 = TestFile2File(params={})
-        f2.set_input(aux.file.create_tmp_file())
-        f2.set_output(aux.file.create_tmp_file())
-        filterChain = filters.basefilters_factories.create_filter_chain(params={}, fs=[f1, f2],
+        f2.set_input(gdtc.aux.file.create_tmp_file())
+        f2.set_output(gdtc.aux.file.create_tmp_file())
+        filterChain = gdtc.filters.basefilters_factories.create_filter_chain(params={}, fs=[f1, f2],
                                                                              first_input=f1.get_input())
         # The test will also fail if this run fails (i.e. raises an Exception)
         filterChain.run()
@@ -45,8 +46,8 @@ class TestWorkFlowBuilding(unittest.TestCase):
 
     def test_create_task_class(self):
         # This creates a new Task, that subclasses File2FileTask with some additional parameters
-        f3 = TestFile2File(params={'input_path': aux.file.create_tmp_file(), 'coco': 24, 'foobar': 'minion'})
-        f3.set_output(aux.file.create_tmp_file())
+        f3 = TestFile2File(params={'input_path': gdtc.aux.file.create_tmp_file(), 'coco': 24, 'foobar': 'minion'})
+        f3.set_output(gdtc.aux.file.create_tmp_file())
         ATaskClass = wfb.create_file_2_file_task_subclass(f3)
         # As I have created a new Task class, I can provide new values for the parameters before
         # runnning it (luigi style parameters, I could set them from the command line for instance)
@@ -123,7 +124,7 @@ class T4(luigi.Task):
 
 
 
-class TestFile2File(filters.basefilters.File2FileFilter):
+class TestFile2File(gdtc.filters.basefilters.File2FileFilter):
     def run(self):
         print(f'Transforming {self.get_input()} into {self.get_output()}')
         print('With these additional parameters:')

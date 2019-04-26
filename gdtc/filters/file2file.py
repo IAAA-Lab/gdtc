@@ -1,9 +1,10 @@
-from osgeo import gdal
 import subprocess
 
-from filters.basefilters import File2FileFilter
+from osgeo import gdal
 import geopandas
 import matplotlib.pyplot as plt
+
+from gdtc.filters.basefilters import File2FileFilter
 
 
 class HDF2TIF(File2FileFilter):
