@@ -122,5 +122,10 @@ class TestGISWorkflows(unittest.TestCase):
         f1 = filters.file2file.PlotMap(params)
         f1.run()
 
+    def test_s3_bucket(self):
+        f1 = filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{self.BASEDIR}output_files/test_object.png')
+        f1.run()
+
+
 if __name__ == '__main__':
     unittest.main()

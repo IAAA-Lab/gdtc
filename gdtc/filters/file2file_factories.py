@@ -1,6 +1,9 @@
 import aux.db
 import aux.file
-from filters.file2file import HDF2TIF, TIF2SQL
+from filters.file2file import HDF2TIF, TIF2SQL, S3Bucket2File
+import filters.file2file_factories
+import filters.file2db_factories
+import os
 
 
 # Factory methods to create filters
@@ -49,3 +52,14 @@ def tif2sql(coord_sys, db, table = None, input_file_name = None, output_file_nam
     params['db'] = db
 
     return TIF2SQL(params)
+
+def s3_bucket_2_file(bucket_name, object_name, endpoint='s3.dualstack.eu-west-1.amazonaws.com', output_path=None):
+    params = {}
+    params['output_path'] = aux.file.create_tmp_file() if output_path is None else output_path
+    params['bucket_name'] = bucket_name
+    params['object_name'] = object_name
+    params['endpoint'] = endpoint
+    params['access_key'] = os.getenv('GDTC_ACCESS_KEY')
+    params['secret_key'] = os.getenv('GDTC_SECRET_KEY')
+
+    return S3Bucket2File(params)
