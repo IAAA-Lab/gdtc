@@ -1,5 +1,4 @@
-import aux.file
-from filters.basefilters import FilterChain
+from gdtc.filters.basefilters import FilterChain
 
 # TODO: We are not checking that the filters can really be connected. May be it's a user responsability
 #       to check that any connection made is of the type DB_out -> BD_in or File_out -> File_in

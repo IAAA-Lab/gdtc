@@ -1,4 +1,4 @@
-from filters.db2db import RowFilter
+from gdtc.filters.db2db import RowFilter
 
 
 # Factory methods to create filters

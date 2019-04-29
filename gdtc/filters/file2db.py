@@ -1,12 +1,14 @@
-import aux.db as gdtcdb
-import aux.srs as gdtcsrs
-import filters.basefilters as basefilters
 # Note: this is preferred to e.g. "import ogr" as the latter will be deprecated soon
 from osgeo import ogr
 from osgeo import osr
 from osgeo import gdal
 import pandas as pd
 import sqlalchemy
+
+import gdtc.aux.db as gdtcdb
+import gdtc.aux.srs as gdtcsrs
+import gdtc.filters.basefilters as basefilters
+
 
 class ExecSQLFile(basefilters.File2DBFilter):
     def run(self):

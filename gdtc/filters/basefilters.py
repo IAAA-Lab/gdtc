@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-import aux.db
-import aux.file
+import gdtc.aux.db
+import gdtc.aux.file
 
 class Filter(ABC):
     """
@@ -96,7 +96,7 @@ class File2FileFilter(Filter):
 
     def get_output(self):
         if "output_path" not in self.params:
-            self.params["output_path"] = aux.file.create_tmp_file()
+            self.params["output_path"] = gdtc.aux.file.create_tmp_file()
         
         return f'{self.params["output_path"]}'
          
@@ -124,7 +124,7 @@ class File2DBFilter(Filter):
         self.params['output_db_database'] = output["db_database"]
         self.params['output_db_user'] = output["db_user"]
         self.params['output_db_password'] = output["db_password"]
-        self.params['output_db_table'] = output["db_table"] if "db_table" in output else aux.db.get_random_table_name()
+        self.params['output_db_table'] = output["db_table"] if "db_table" in output else gdtc.aux.db.get_random_table_name()
 
     def get_output(self):
         return {
@@ -171,8 +171,8 @@ class DB2DBFilter(Filter):
         self.params['output_db_database'] = output["db_database"]
         self.params['output_db_user'] = output["db_user"]
         self.params['output_db_password'] = output["db_password"]
-        self.params['output_db_table'] = output["db_table"] if "db_table" in output else aux.db.get_random_table_name()
-    
+        self.params['output_db_table'] = output["db_table"] if "db_table" in output else gdtc.aux.db.get_random_table_name()
+
     def get_input(self):
         return {
             "db_host": self.params["input_db_host"],
@@ -237,7 +237,7 @@ class DB2FileFilter(Filter):
 
     def get_output(self):
         if "output_path" not in self.params:
-            self.params["output_path"] = aux.file.create_tmp_file()
+            self.params["output_path"] = gdtc.aux.file.create_tmp_file()
         
         return f'{self.params["output_path"]}'
 
