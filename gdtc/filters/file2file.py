@@ -3,6 +3,8 @@ import subprocess
 from osgeo import gdal
 import geopandas
 import matplotlib.pyplot as plt
+from minio import Minio
+from minio.error import (ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExists)
 
 from gdtc.filters.basefilters import File2FileFilter
 
@@ -48,3 +50,12 @@ class PlotMap(File2FileFilter):
         map = geopandas.read_file(self.get_input())
         map.plot()
         plt.savefig(self.get_output())
+
+class S3Bucket2File(File2FileFilter):
+    def run(self):
+        minioClient = Minio(self.params['endpoint'], access_key=self.params['access_key'], secret_key=self.params['secret_key'], secure=True)
+        try:
+            stats = minioClient.fget_object(self.params['bucket_name'], self.params['object_name'], self.get_output())
+            print(stats)
+        except ResponseError as err:
+            print(err)
