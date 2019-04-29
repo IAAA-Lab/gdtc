@@ -3,9 +3,6 @@ language: python
 python: 
   - "3.7"
 
-env:
-  - GDTC_BASEDIR = './input_files'
-
 install:
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $HOME/miniconda
@@ -21,6 +18,7 @@ install:
 
 before_script:
   # Get test data
+  - export GDTC_BASEDIR='./input_files'
   - mkdir $GDTC_BASEDIR
   - git clone https://github.com/IAAA-Lab/gdtc-test-data.git $GDTC_BASEDIR
 
