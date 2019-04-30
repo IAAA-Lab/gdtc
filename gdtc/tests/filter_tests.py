@@ -16,8 +16,7 @@ import gdtc.tasks.workflowbuilder as wfb
 class TestGISWorkflows(unittest.TestCase):
 
     # Remember to define GDTC_BASEDIR without a / at the end
-    #BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
-    BASEDIR = "/home/rbejar/git/Projects/gdtc-test-data"
+    BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
 
     def test_hdf2sql(self):
         # Define input / output path
