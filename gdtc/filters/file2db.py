@@ -104,6 +104,7 @@ class SHP2DB(basefilters.File2DBFilter):
 class CSV2DB(basefilters.File2DBFilter):
     def run(self, **options):
         """
+        Insert CSV file to DB.
         :param options: optionally, any params that `pandas.read_csv <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html>`_
         can take
         :return:
@@ -112,3 +113,17 @@ class CSV2DB(basefilters.File2DBFilter):
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_csv = pd.read_csv(self.get_input(), **options)
         input_csv.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
+
+
+class FixedWidthFile2DB(basefilters.File2DBFilter):
+    def run(self, **options):
+        """
+        Insert Fixed Width File to DB.
+        :param options: optionally, any params that `pandas.read_fwf <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_fwf.html>`_
+        can take
+        :return:
+        """
+        db = gdtcdb.Db(*self.get_output_connection().values())
+        sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
+        input_fwf = pd.read_fwf(self.get_input(), **options)
+        input_fwf.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')

@@ -9,11 +9,13 @@ import gdtc.filters.file2file_factories
 import gdtc.filters.db2db_factories
 import gdtc.filters.db2db
 import gdtc.filters.file2file
+import gdtc.filters.file2db
 import gdtc.tasks.workflowbuilder as wfb
 
 
 class TestGISWorkflows(unittest.TestCase):
 
+    # Remember to define GDTC_BASEDIR without a / at the end
     BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
 
     def test_hdf2sql(self):
@@ -110,13 +112,53 @@ class TestGISWorkflows(unittest.TestCase):
         filter_chain = gdtc.filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3, f4], first_input=input_file, last_output=last_output)
         filter_chain.run()
     
-    def test_shp2db_factories(self):
-        pass    
+    def test_shp2db(self):
+        output = {
+            "db_host": "localhost",
+            "db_port": 8432,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "shape2db_test"
+        }
+        params = {}
+        params['input_path'] = f'{self.BASEDIR}/input_files/ne_110m_coastline.shp'
+        f1 = gdtc.filters.file2db.SHP2DB(params)
+        f1.set_output(output)
+        f1.run()
     
-    def test_csv2db_factories(self):
-        pass
+    def test_csv2db(self):
+        output = {
+            "db_host": "localhost",
+            "db_port": 8432,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "csv_test"
+        }
+        params = {}
+        params['input_path'] = f'{self.BASEDIR}/input_files/INE_Provs_2018.csv'
+        f1 = gdtc.filters.file2db.CSV2DB(params)
+        f1.set_output(output)
+        f1.run()
 
-    def test_plot_map_from_postgis(self):
+
+    def test_fixed_width_file2db(self):
+        output = {
+            "db_host": "localhost",
+            "db_port": 8432,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "fwf_test"
+        }
+        params = {}
+        params['input_path'] = f'{self.BASEDIR}/input_files/Nomdef2017.txt'
+        f1 = gdtc.filters.file2db.FixedWidthFile2DB(params)
+        f1.set_output(output)
+        f1.run()
+
+    def test_plot_map(self):
         params = {}
         params['input_path'] = f'{self.BASEDIR}/input_files/110m_physical/ne_110m_coastline.shp'
         params['output_path'] = f'{self.BASEDIR}/output_files/ne_110m_coastline.png'
@@ -124,7 +166,7 @@ class TestGISWorkflows(unittest.TestCase):
         f1.run()
 
     def test_s3_bucket(self):
-        f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{self.BASEDIR}output_files/test_object.png')
+        f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{self.BASEDIR}/output_files/test_object.png')
         f1.run()
 
 
