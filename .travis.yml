@@ -2,23 +2,12 @@ dist: xenial # required for Python >= 3.7
 language: python
 python: 
   - "3.7"
- 
-install:
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  # Useful for debugging any issues with conda
-  - conda info -a
-  
-  - conda env create -q -n test-environment python=$TRAVIS_PYTHON_VERSION -f gdtc_conda.yml  
-  - source activate test-environment
-  
+
+services:
+  - docker
+
+before_install:
+  - make build
+
 script:
-  # After testing the build and the tests, substitute the pattern to e.g. '*.py' to run every test
-  - python3 -m unittest discover -s ./gdtc/tests -p 'filter_tests.py'
-  
-  
-  
+  - make test

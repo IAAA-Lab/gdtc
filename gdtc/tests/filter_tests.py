@@ -14,12 +14,18 @@ import gdtc.tasks.workflowbuilder as wfb
 
 class TestGISWorkflows(unittest.TestCase):
 
-    BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
+    INPUTDIR = os.getenv('GDTC_IN_VOL') or '/input'
+    OUTPUTDIR = os.getenv('GDTC_OUT_VOL') or '/output'
+    POSTGIS_HOST=os.getenv('POSTGIS_HOST') or 'localhost'
+    POSTGIS_PORT=os.getenv('POSTGIS_INTERNAL_PORT') or 5432
+    POSTGIS_USER=os.getenv('POSTGIS_USER') or 'postgres'
+    POSTGIS_PASS=os.getenv('POSTGIS_PASS') or 'geodatatoolchainps'
+    POSTGIS_DATABASE=os.getenv('POSTGIS_DATABASE') or 'postgres'
 
     def test_hdf2sql(self):
         # Define input / output path
-        input_file = f'{self.BASEDIR}/input_files/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
-        output_file = f'{self.BASEDIR}/output_files/output_file.sql'
+        input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        output_file = f'{self.OUTPUTDIR}/output_file.sql'
 
         # We create 2 filters
         f1 = gdtc.filters.file2file_factories.hdf2tif(layer_num=0, dstSRS="EPSG:4358")
@@ -35,20 +41,20 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_hdf2db(self):
         # Define input / output path
-        input_file = f'{self.BASEDIR}/input_files/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
 
         filterchain = gdtc.filters.file2db_factories.hdf2db(input_file_name=input_file, layer_num=0, coord_sys="4358", table="georefs",
-                                                       host="localhost", port=8432, user="postgres", password="geodatatoolchainps", db="postgres")
+                                                       host=self.POSTGIS_HOST, port=self.POSTGIS_PORT, user="postgres", password="geodatatoolchainps", db="postgres")
         filterchain.run()
 
     def test_filter_chain(self):
-        input_file = f'{self.BASEDIR}/input_files/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
         last_output = {
-            "db_host": "localhost",
-            "db_port": 8432,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
+            "db_database": self.POSTGIS_DATABASE,
+            "db_user": self.POSTGIS_USER,
+            "db_password": self.POSTGIS_PASS,
             "db_table": "geodata"
         }
         f1_params = {
@@ -67,8 +73,8 @@ class TestGISWorkflows(unittest.TestCase):
             "table": "gdtc_table"
         }
         f3_params = {
-            "output_db_host": "localhost",
-            "output_db_port": 8432,
+            "output_db_host": self.POSTGIS_HOST,
+            "output_db_port": self.POSTGIS_PORT,
             "output_db_database": "postgres",
             "output_db_user": "postgres",
             "output_db_password": "geodatatoolchainps",
@@ -89,10 +95,10 @@ class TestGISWorkflows(unittest.TestCase):
         filter_chain.run()
 
     def test_db2db_factories(self):
-        input_file = f'{self.BASEDIR}/input_files/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
         last_output = {
-            "db_host": "localhost",
-            "db_port": 8432,
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
             "db_database": "postgres",
             "db_user": "postgres",
             "db_password": "geodatatoolchainps",
@@ -118,13 +124,13 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_plot_map_from_postgis(self):
         params = {}
-        params['input_path'] = f'{self.BASEDIR}/input_files/110m_physical/ne_110m_coastline.shp'
-        params['output_path'] = f'{self.BASEDIR}/output_files/ne_110m_coastline.png'
+        params['input_path'] = f'{self.INPUTDIR}/110m_physical/ne_110m_coastline.shp'
+        params['output_path'] = f'{self.OUTPUTDIR}/ne_110m_coastline.png'
         f1 = gdtc.filters.file2file.PlotMap(params)
         f1.run()
 
     def test_s3_bucket(self):
-        f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{self.BASEDIR}output_files/test_object.png')
+        f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{self.OUTPUTDIR}/test_object.png')
         f1.run()
 
 

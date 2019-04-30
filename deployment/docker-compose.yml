@@ -6,6 +6,9 @@ services:
     environment: 
       - POSTGIS_HOST=${POSTGIS_HOST}
       - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
+      - POSTGIS_USER=${POSTGIS_USER}
+      - POSTGIS_DATABASE=${POSTGIS_DATABASE}
+      - POSTGIS_PASS=${POSTGIS_PASS}
       - GDTC_IN_VOL=${GDTC_IN_VOL}
       - GDTC_OUT_VOL=${GDTC_OUT_VOL}
     volumes:

@@ -4,7 +4,7 @@ import gdtc.filters.file2file_factories
 from gdtc.aux import db as gdtcdb
 from gdtc.filters.file2db import ExecSQLFile, SHP2DB, CSV2DB
 
-def execsqlfile(output_db_table=None, db_host="localhost", db_port=8432, db_user="postgres", db_password="geodatatoolchainps", db_database="postgres", sql_file_path=None):
+def execsqlfile(output_db_table=None, db_host="postgis", db_port=5432, db_user="postgres", db_password="geodatatoolchainps", db_database="postgres", sql_file_path=None):
     params = {}
     params = gdtcdb.add_output_db_params({}, db_host, db_port, db_user, db_password, db_database)
     params['input_path'] = sql_file_path

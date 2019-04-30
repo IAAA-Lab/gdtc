@@ -4,7 +4,7 @@ from gdtc.filters.db2db import RowFilter
 # Factory methods to create filters
 # TODO: Params based on environment variables
 
-def rowfilter(where_clause, output_db_table=None, db_host="localhost", db_port=8432, db_database="postgres", db_user="postgres", db_password="geodatatoolchainps"):
+def rowfilter(where_clause, output_db_table=None, db_host="postgis", db_port=5432, db_database="postgres", db_user="postgres", db_password="geodatatoolchainps"):
 
     params = {}
     params['where_clause'] = where_clause

@@ -32,8 +32,7 @@ RUN apt-get install -y gdal-bin
 RUN apt-get install -y postgresql-client
 
 RUN echo "GDTC_BASE_PROJECT"
+RUN mkdir /gdtc
+COPY . /gdtc
 
-COPY . /
-
-# Clone GDTC git repository
-# RUN git clone https://github.com/IAAA-Lab/gdtc.git
+RUN apt-get -y install postgis
