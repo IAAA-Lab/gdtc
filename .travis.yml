@@ -15,8 +15,6 @@ install:
   - conda info -a
   - conda env create -q -n test-environment python=$TRAVIS_PYTHON_VERSION -f gdtc_conda.yml  
   - source activate test-environment
-  # For those packages which are not in conda repositories
-  - pip install -r requirements_after_conda.txt
 
 before_script:
   # Get test data

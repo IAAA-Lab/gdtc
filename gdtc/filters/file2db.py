@@ -114,6 +114,19 @@ class CSV2DB(basefilters.File2DBFilter):
         input_csv = pd.read_csv(self.get_input(), **options)
         input_csv.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
 
+class Excel2DB(basefilters.File2DBFilter):
+    def run(self, **options):
+        """
+        Insert Excel file to DB.
+        :param options: optionally, any params that `pandas.read_excel <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html>`_
+        can take
+        :return:
+        """
+        db = gdtcdb.Db(*self.get_output_connection().values())
+        sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
+        input_excel = pd.read_excel(self.get_input(), **options)
+        input_excel.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
+
 
 class FixedWidthFile2DB(basefilters.File2DBFilter):
     def run(self, **options):

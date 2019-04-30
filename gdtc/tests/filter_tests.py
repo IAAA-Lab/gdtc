@@ -16,7 +16,8 @@ import gdtc.tasks.workflowbuilder as wfb
 class TestGISWorkflows(unittest.TestCase):
 
     # Remember to define GDTC_BASEDIR without a / at the end
-    BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
+    #BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
+    BASEDIR = "/home/rbejar/git/Projects/gdtc-test-data"
 
     def test_hdf2sql(self):
         # Define input / output path
@@ -141,6 +142,21 @@ class TestGISWorkflows(unittest.TestCase):
         f1 = gdtc.filters.file2db.CSV2DB(params)
         f1.set_output(output)
         f1.run()
+
+    def test_excel2db(self):
+        output = {
+            "db_host": "localhost",
+            "db_port": 8432,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "excel_test"
+        }
+        params = {}
+        params['input_path'] = f'{self.BASEDIR}/input_files/parque_2016_tablas_auxiliares_anuario.xlsx'
+        f1 = gdtc.filters.file2db.Excel2DB(params)
+        f1.set_output(output)
+        f1.run(sheet_name="parque_MUN", header=2)
 
 
     def test_fixed_width_file2db(self):
