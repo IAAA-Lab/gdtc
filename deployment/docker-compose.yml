@@ -11,6 +11,8 @@ services:
       - POSTGIS_PASS=${POSTGIS_PASS}
       - GDTC_IN_VOL=${GDTC_IN_VOL}
       - GDTC_OUT_VOL=${GDTC_OUT_VOL}
+      - GDTC_ACCESS_KEY=${GDTC_ACCESS_KEY}
+      - GDTC_SECRET_KEY=${GDTC_SECRET_KEY}
     volumes:
       - ${LOCAL_IN_VOL}:/input
       - ${LOCAL_OUT_VOL}:/output
@@ -19,10 +21,5 @@ services:
   postgis:
     image: "mdillon/postgis"
     container_name: postgis
-    # environment: 
-    #   - POSTGIS_HOST=${POSTGIS_HOST}
-      # - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
-    # ports:
-    #  - "${POSTGIS_EXTERNAL_PORT}:${POSTGIS_INTERNAL_PORT}"
     stdin_open: true
     tty: true
