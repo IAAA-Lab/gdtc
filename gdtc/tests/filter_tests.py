@@ -18,7 +18,7 @@ class TestGISWorkflows(unittest.TestCase):
     INPUTDIR = os.getenv('GDTC_IN_VOL') or '/input'
     OUTPUTDIR = os.getenv('GDTC_OUT_VOL') or '/output'
     POSTGIS_HOST=os.getenv('POSTGIS_HOST') or 'localhost'
-    POSTGIS_PORT=os.getenv('POSTGIS_INTERNAL_PORT') or 5432
+    POSTGIS_PORT=os.getenv('POSTGIS_PORT') or 5432
     POSTGIS_USER=os.getenv('POSTGIS_USER') or 'postgres'
     POSTGIS_PASS=os.getenv('POSTGIS_PASS') or 'geodatatoolchainps'
     POSTGIS_DATABASE=os.getenv('POSTGIS_DATABASE') or 'postgres'

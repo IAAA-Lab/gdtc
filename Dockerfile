@@ -31,8 +31,8 @@ RUN apt-get install -y gdal-bin
 # This will install pgsql client
 RUN apt-get install -y postgresql-client
 
-RUN echo "GDTC_BASE_PROJECT"
+RUN apt-get install -y postgis
+
+# Copy project
 RUN mkdir /gdtc
 COPY . /gdtc
-
-RUN apt-get -y install postgis

@@ -5,7 +5,7 @@ services:
     container_name: gdtc
     environment: 
       - POSTGIS_HOST=${POSTGIS_HOST}
-      - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
+      - POSTGIS_PORT=${POSTGIS_PORT}
       - POSTGIS_USER=${POSTGIS_USER}
       - POSTGIS_DATABASE=${POSTGIS_DATABASE}
       - POSTGIS_PASS=${POSTGIS_PASS}
@@ -19,10 +19,10 @@ services:
   postgis:
     image: "mdillon/postgis"
     container_name: postgis
-    environment: 
-      - POSTGIS_HOST=${POSTGIS_HOST}
-      - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
-    ports:
-     - "${POSTGIS_EXTERNAL_PORT}:${POSTGIS_INTERNAL_PORT}"
+    # environment: 
+    #   - POSTGIS_HOST=${POSTGIS_HOST}
+      # - POSTGIS_PORT=${POSTGIS_INTERNAL_PORT}
+    # ports:
+    #  - "${POSTGIS_EXTERNAL_PORT}:${POSTGIS_INTERNAL_PORT}"
     stdin_open: true
     tty: true
