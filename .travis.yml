@@ -6,6 +6,9 @@ python:
 services:
   - docker
 
+before_install:
+  - make context
+
 install:
   - make build
 

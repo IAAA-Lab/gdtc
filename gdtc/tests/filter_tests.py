@@ -183,7 +183,7 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_plot_map(self):
         params = {}
-        params['input_path'] = f'{self.INPUTDIR}/110m_physical/ne_110m_coastline.shp'
+        params['input_path'] = f'{self.INPUTDIR}/ne_110m_coastline.shp'
         params['output_path'] = f'{self.OUTPUTDIR}/ne_110m_coastline.png'
         f1 = gdtc.filters.file2file.PlotMap(params)
         f1.run()
