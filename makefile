@@ -2,7 +2,7 @@ context:
 	mkdir -p ${HOME}/input_files
 	mkdir -p ${HOME}/output_files
 	git clone https://github.com/IAAA-Lab/gdtc-test-data.git
-	cp -rf ./gdtc-test-data/input_files/* ${HOME}/input
+	cp -rf ./gdtc-test-data/input_files/* ${HOME}/input_files
 build:
 	docker build -t gdtc/base:latest .
 	docker-compose -f deployment/docker-compose.yml up -d
