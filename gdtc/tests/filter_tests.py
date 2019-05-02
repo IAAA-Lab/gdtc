@@ -122,45 +122,45 @@ class TestGISWorkflows(unittest.TestCase):
     
     def test_shp2db(self):
         output = {
-            "db_host": "localhost",
-            "db_port": 8432,
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
             "db_database": "postgres",
             "db_user": "postgres",
             "db_password": "geodatatoolchainps",
             "db_table": "shape2db_test"
         }
         params = {}
-        params['input_path'] = f'{self.BASEDIR}/input_files/ne_110m_coastline.shp'
+        params['input_path'] = f'{self.INPUTDIR}/ne_110m_coastline.shp'
         f1 = gdtc.filters.file2db.SHP2DB(params)
         f1.set_output(output)
         f1.run()
     
     def test_csv2db(self):
         output = {
-            "db_host": "localhost",
-            "db_port": 8432,
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
             "db_database": "postgres",
             "db_user": "postgres",
             "db_password": "geodatatoolchainps",
             "db_table": "csv_test"
         }
         params = {}
-        params['input_path'] = f'{self.BASEDIR}/input_files/INE_Provs_2018.csv'
+        params['input_path'] = f'{self.INPUTDIR}/INE_Provs_2018.csv'
         f1 = gdtc.filters.file2db.CSV2DB(params)
         f1.set_output(output)
         f1.run()
 
     def test_excel2db(self):
         output = {
-            "db_host": "localhost",
-            "db_port": 8432,
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
             "db_database": "postgres",
             "db_user": "postgres",
             "db_password": "geodatatoolchainps",
             "db_table": "excel_test"
         }
         params = {}
-        params['input_path'] = f'{self.BASEDIR}/input_files/parque_2016_tablas_auxiliares_anuario.xlsx'
+        params['input_path'] = f'{self.INPUTDIR}/parque_2016_tablas_auxiliares_anuario.xlsx'
         f1 = gdtc.filters.file2db.Excel2DB(params)
         f1.set_output(output)
         f1.run(sheet_name="parque_MUN", header=2)
@@ -168,15 +168,15 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_fixed_width_file2db(self):
         output = {
-            "db_host": "localhost",
-            "db_port": 8432,
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
             "db_database": "postgres",
             "db_user": "postgres",
             "db_password": "geodatatoolchainps",
             "db_table": "fwf_test"
         }
         params = {}
-        params['input_path'] = f'{self.BASEDIR}/input_files/Nomdef2017.txt'
+        params['input_path'] = f'{self.INPUTDIR}/Nomdef2017.txt'
         f1 = gdtc.filters.file2db.FixedWidthFile2DB(params)
         f1.set_output(output)
         f1.run()
