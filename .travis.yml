@@ -2,17 +2,6 @@ dist: xenial # required for Python >= 3.7
 language: python
 python: 
   - "3.7"
-env:
-  - LOCAL_IN_VOL=${HOME}/input_files
-  - LOCAL_OUT_VOL=${HOME}/output_files
-  - POSTGIS_HOST=postgis
-  - POSTGIS_USER=postgres
-  - POSTGIS_PASS=geodatatoolchainps
-  - POSTGIS_DATABASE=postgres
-  - POSTGIS_EXTERNAL_PORT=8432
-  - POSTGIS_INTERNAL_PORT=5432
-  - GDTC_IN_VOL=/input
-  - GDTC_OUT_VOL=/output
 
 services:
   - docker
