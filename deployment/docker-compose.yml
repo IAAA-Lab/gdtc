@@ -16,8 +16,6 @@ services:
       - ${LOCAL_OUT_VOL}:/output
     stdin_open: true
     tty: true
-    networks:
-      - gdtc_net
   postgis:
     image: "mdillon/postgis"
     container_name: postgis
@@ -28,5 +26,3 @@ services:
      - "${POSTGIS_EXTERNAL_PORT}:${POSTGIS_INTERNAL_PORT}"
     stdin_open: true
     tty: true
-    networks:
-      - gdtc_net
