@@ -22,3 +22,5 @@ clean:
 	docker stop postgis
 	docker rm gdtc
 	docker rm postgis
+
+all: build run test
