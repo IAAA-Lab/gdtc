@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 
+import os
 import gdtc.aux.db
 import gdtc.aux.file
+
+DEBUG = os.getenv("GDTC_DEBUG")
 
 class Filter(ABC):
     """
@@ -72,9 +75,43 @@ class FilterChain(Filter):
         Runs the filters in order
         :return:
         """
-        for f in self.fs:
+        for f in self.fs:            
             f.run()
 
+class FilterVector(Filter):
+    """
+    A wrapper over a bunch of input filter that produces one output. It's a N to 1 filter.
+    The filter vector receives multiple filters to be executed in parallel as an input, executes them and then it runs
+    a postRun method. This method should be overrided.
+    """
+
+    def __init__(self, params, fs):
+        super(FilterVector, self).__init__(params)
+        self.fs = fs
+    
+    def get_input(self):
+        for f in self.fs:
+            yield f.get_input()
+
+    def get_output(self):
+        return self.params["output"]
+
+    def set_input(self, _input):
+        i=0
+        for f in self.fs:
+            f.set_input(_input[i])
+            i = i+1
+
+    def set_output(self, output):
+        self.params["output"] = output
+
+    def run(self):
+        for f in self.fs:
+            f.run()
+        self.postRun()
+    
+    def postRun(self):
+        pass
 
 class File2FileFilter(Filter):
     """
