@@ -54,14 +54,14 @@ class SHP2DB(basefilters.File2DBFilter):
         # If input_srs is given use that. Otherwise, take the SRS of the input dataset
         if input_srs_string != None:
             input_srs = osr.SpatialReference()
-            input_srs.ImportFromEPSG(gdtcsrs.Srs(input_srs_string).as_epsg_number())
+            input_srs.ImportFromEPSG(int(gdtcsrs.Srs(input_srs_string).as_epsg_number()))
         else:
             input_srs = input_layer.GetSpatialRef()
 
         # If output_srs is given use that. Otherwise, take the same SRS used for the input
         if output_srs_string != None:
             output_srs = osr.SpatialReference()
-            output_srs.ImportFromEPSG(gdtcsrs.Srs(output_srs_string).as_epsg_number())
+            output_srs.ImportFromEPSG(int(gdtcsrs.Srs(output_srs_string).as_epsg_number()))
         else:
             output_srs = input_srs
 
