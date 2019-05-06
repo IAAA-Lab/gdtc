@@ -55,7 +55,6 @@ class S3Bucket2File(File2FileFilter):
     def run(self):
         minioClient = Minio(self.params['endpoint'], access_key=self.params['access_key'], secret_key=self.params['secret_key'], secure=True)
         try:
-            stats = minioClient.fget_object(self.params['bucket_name'], self.params['object_name'], self.get_output())
-            print(stats)
+            minioClient.fget_object(self.params['bucket_name'], self.params['object_name'], self.get_output())
         except ResponseError as err:
             print(err)
