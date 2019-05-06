@@ -10,6 +10,7 @@ import gdtc.filters.db2db_factories
 import gdtc.filters.db2db
 import gdtc.filters.file2file
 import gdtc.filters.file2db
+import gdtc.filters.multifilters
 import gdtc.tasks.workflowbuilder as wfb
 
 
@@ -192,6 +193,60 @@ class TestGISWorkflows(unittest.TestCase):
         f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{self.OUTPUTDIR}/test_object.png')
         f1.run()
 
+    def test_filter_vector(self):
+
+       # Filter chain to insert HDF into db 
+        input_path_hdf = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        last_output = {
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "geodata"
+        }
+
+        
+        f1 = gdtc.filters.file2file_factories.hdf2tif(layer_num=1, reproject=True, srcSRS='+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs', dstSRS="EPSG:4358", cell_res=1000)
+        f2 = gdtc.filters.file2file_factories.tif2sql(coord_sys = 4358, db ="postgres", table='gdtc_table')
+        f3 = gdtc.filters.file2db_factories.execsqlfile(output_db_table='gdtc_table')
+
+        hdf2db_filter_chain = gdtc.filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3], first_input=input_path_hdf, last_output=last_output)
+
+        # Filter to insert SHP into db
+        shp_params = {} 
+        shp_params['input_path'] = f'{self.INPUTDIR}/Comunidades_Autonomas_ETRS89_30N.shp'
+        shp_params['input_srs'] = 'EPSG:4358'
+        shp_params['output_srs'] = 'EPSG:4358'
+        shp_output = {
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+            "db_table": "comunidades_shp"
+        }
+
+        f4 = gdtc.filters.file2db.SHP2DB(shp_params)
+        f4.set_output(shp_output)
+
+        # ClipRasterWithSHP is a filter vector
+
+        params = {
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
+            "db_database": "postgres",
+            "db_user": "postgres",
+            "db_password": "geodatatoolchainps",
+        }
+        params["geom"] = 'wkb_geometry'
+        params["shp_table"] = 'comunidades_shp'
+        params["hdf_table"] = 'gdtc_table'
+        params["ogc_fid"] = 2
+        params["rid"] = 1
+
+        filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP(params, [hdf2db_filter_chain, f4])
+        filter_vector.run()
 
 if __name__ == '__main__':
     unittest.main()
