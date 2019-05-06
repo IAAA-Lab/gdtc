@@ -80,9 +80,11 @@ class FilterChain(Filter):
 
 class FilterVector(Filter):
     """
-    A wrapper over a bunch of input filter that produces one output. It's a N to 1 filter.
+    A wrapper over a bunch of input filter that produces a user defined output. It's a N to N filter.
     The filter vector receives multiple filters to be executed in parallel as an input, executes them and then it runs
     a postRun method. This method should be overrided.
+    The get/set output methods shoould be overrided in order to chain this vector properly.
+    This lets the user define multiple outputs for the filter
     """
 
     def __init__(self, params, fs):
@@ -94,7 +96,7 @@ class FilterVector(Filter):
             yield f.get_input()
 
     def get_output(self):
-        return self.params["output"]
+        pass
 
     def set_input(self, _input):
         i=0
@@ -103,7 +105,7 @@ class FilterVector(Filter):
             i = i+1
 
     def set_output(self, output):
-        self.params["output"] = output
+        pass
 
     def run(self):
         for f in self.fs:

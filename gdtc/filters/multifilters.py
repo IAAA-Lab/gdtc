@@ -5,7 +5,7 @@ import geopandas
 import matplotlib.pyplot as plt
 from minio import Minio
 from minio.error import (ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExists)
-from gdtc.aux import db
+from gdtc.aux import db, output_factory
 
 from gdtc.filters.basefilters import FilterVector
 
@@ -24,5 +24,11 @@ class ClipRasterWithSHP(FilterVector):
 
                 '''
 
-        gdtcdb = db.Db(self.params["db_host"], self.params["db_port"], self.params["db_database"], self.params["db_user"], self.params["db_password"])
+        gdtcdb = db.Db(self.params["output_db_host"], self.params["output_db_port"], self.params["output_db_database"], self.params["output_db_user"], self.params["output_db_password"])
         gdtcdb.execute_query(sql)
+
+    def get_output(self):
+        return output_factory.generate_db_output_getter_template(self)
+
+    def set_output(self, params):
+        output_factory.generate_db_output_setter_template(self, params)

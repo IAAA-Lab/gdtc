@@ -233,11 +233,12 @@ class TestGISWorkflows(unittest.TestCase):
         # ClipRasterWithSHP is a filter vector
 
         params = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
+            "output_db_host": self.POSTGIS_HOST,
+            "output_db_port": self.POSTGIS_PORT,
+            "output_db_database": "postgres",
+            "output_db_user": "postgres",
+            "output_db_password": "geodatatoolchainps",
+            "output_db_table": "clips"
         }
         params["geom"] = 'wkb_geometry'
         params["shp_table"] = 'comunidades_shp'
@@ -247,6 +248,7 @@ class TestGISWorkflows(unittest.TestCase):
 
         filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP(params, [hdf2db_filter_chain, f4])
         filter_vector.run()
+        print(filter_vector.get_output())
 
 if __name__ == '__main__':
     unittest.main()
