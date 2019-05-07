@@ -13,7 +13,7 @@ class ClipRasterWithSHP(FilterVector):
 
     def postRun(self):
         sql = f'''
-                CREATE TABLE IF NOT EXISTS clips (clip raster);
+                CREATE TABLE IF NOT EXISTS {self.params["output_db_table"]} (clip raster);
                 INSERT INTO clips (clip) VALUES ((
                     SELECT ST_Clip (rast, 
                         (SELECT {self.params["geom"]} FROM {self.params["shp_table"]} WHERE ogc_fid = {self.params["ogc_fid"]})

@@ -19,3 +19,14 @@ def generate_db_output_setter_template(obj, output):
     obj.params["output_db_table"] = output["db_table"]
 
     return obj
+
+def generate_file_output_getter_template(obj):
+    output = {}
+    output["outputh_path"] = obj.params["outputh_path"]
+
+    return output
+
+def generate_file_output_setter_template(obj, output):
+    obj.params["output_path"] = output["outputh_path"]
+
+    return obj
