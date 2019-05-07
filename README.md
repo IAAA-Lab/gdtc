@@ -23,7 +23,7 @@ In order to do that, follow those steps:
 
 `git clone https://github.com/IAAA-Lab/gdtc.git` <br />
 `cd gdtc/deployment` <br />
-`docker build -t gdtc/latest ..` <br />
+`docker build -t gdtc/base:latest ..` <br />
 `docker-compose up -d` <br />
 `docker exec -ti gdtc /bin/bash` <br />
 
