@@ -21,19 +21,38 @@ You can use Docker to install the whole application with all it's dependecies, i
 
 In order to do that, follow those steps:
 
-`git clone https://github.com/IAAA-Lab/gdtc.git` <br />
-`cd gdtc/deployment` <br />
-`docker build -t gdtc/base:latest ..` <br />
-`docker-compose up -d` <br />
-`docker exec -ti gdtc /bin/bash` <br />
+Clone this repository and go to that directory:
+```
+git clone https://github.com/IAAA-Lab/gdtc.git
+cd gdtc
+```
 
-This way you will get connected to a fully configurated instance of a GDTC container.
+Then, you need to define a number of environment variables. You can create a 
+shell file (e.g. set_env.sh) with these contents:
 
-In order to check connection with Postgis container, try next command:
+```
+#!/bin/sh
+export LOCAL_IN_VOL=${HOME}/input_files
+export LOCAL_OUT_VOL=${HOME}/output_files
+export POSTGIS_HOST=postgis
+export POSTGIS_PORT=5432
+export POSTGIS_USER=postgres
+export POSTGIS_DATABASE=postgres
+export POSTGIS_PASS=geodatatoolchainps
+export GDTC_IN_VOL=/input
+export GDTC_OUT_VOL=/output
+export GDTC_ACCESS_KEY=YOUR_S3_ACCESS_KEY
+export GDTC_SECRET_KEY=YOUR_S3_SECRET_KEY
+```
 
-`psql -h $POSTGIS_HOST -p $POSTGIS_PORT -d postgres -U postgres`
+and then to download the test data, build and run docker images and run the tests:
 
-If everything is ok, you should see: _postgres=#_
+```
+source set_env.sh
+make all
+```
+
+This way you will run the tests on a fully configurated instance of a GDTC container with some sample data.
 
 ## License
 This work is subject to the European Union Public License 1.2 which can be read in the LICENSE file. Regarding the attribution obligation in that license, this work is:
