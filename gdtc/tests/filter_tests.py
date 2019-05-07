@@ -27,6 +27,15 @@ class TestGISWorkflows(unittest.TestCase):
     # Remember to define GDTC_BASEDIR without a / at the end
     BASEDIR = os.getenv('GDTC_BASEDIR') or '/input'
 
+    def setUp(self):
+        self.test_db = {
+            "db_host": self.POSTGIS_HOST,
+            "db_port": self.POSTGIS_PORT,
+            "db_database": self.POSTGIS_DATABASE,
+            "db_user": self.POSTGIS_USER,
+            "db_password": self.POSTGIS_PASS,
+        }
+
     def test_hdf2sql(self):
         # Define input / output path
         input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
@@ -54,14 +63,9 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_filter_chain(self):
         input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
-        last_output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": self.POSTGIS_DATABASE,
-            "db_user": self.POSTGIS_USER,
-            "db_password": self.POSTGIS_PASS,
-            "db_table": "geodata"
-        }
+        last_output = self.test_db
+        last_output["db_table"] = "geodata"
+
         f1_params = {
             "layer_num": 0,
             "dstSRS": "EPSG:4358",
@@ -101,14 +105,8 @@ class TestGISWorkflows(unittest.TestCase):
 
     def test_db2db_factories(self):
         input_file = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
-        last_output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "geodata"
-        }
+        last_output = self.test_db
+        last_output["db_table"] = "geodata"
 
         f1 = gdtc.filters.file2file_factories.hdf2tif(layer_num=0, dstSRS="EPSG:4358")
         # TODO: Think about tif2sql filter, which is file2file filter but should pass table parameter to the next
@@ -122,14 +120,8 @@ class TestGISWorkflows(unittest.TestCase):
         filter_chain.run()
     
     def test_shp2db(self):
-        output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "shape2db_test"
-        }
+        output = self.test_db
+        output["db_table"] = "shape2db_test"
         params = {}
         params['input_path'] = f'{self.INPUTDIR}/ne_110m_coastline.shp'
         f1 = gdtc.filters.file2db.SHP2DB(params)
@@ -137,14 +129,8 @@ class TestGISWorkflows(unittest.TestCase):
         f1.run()
     
     def test_csv2db(self):
-        output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "csv_test"
-        }
+        output = self.test_db
+        output["db_table"] = "csv_test"
         params = {}
         params['input_path'] = f'{self.INPUTDIR}/INE_Provs_2018.csv'
         f1 = gdtc.filters.file2db.CSV2DB(params)
@@ -152,14 +138,8 @@ class TestGISWorkflows(unittest.TestCase):
         f1.run()
 
     def test_excel2db(self):
-        output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "excel_test"
-        }
+        output = self.test_db
+        output["db_table"] = "excel_test"
         params = {}
         params['input_path'] = f'{self.INPUTDIR}/parque_2016_tablas_auxiliares_anuario.xlsx'
         f1 = gdtc.filters.file2db.Excel2DB(params)
@@ -168,14 +148,8 @@ class TestGISWorkflows(unittest.TestCase):
 
 
     def test_fixed_width_file2db(self):
-        output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "fwf_test"
-        }
+        output = self.test_db
+        output["db_table"] = "fwf_test"
         params = {}
         params['input_path'] = f'{self.INPUTDIR}/Nomdef2017.txt'
         f1 = gdtc.filters.file2db.FixedWidthFile2DB(params)
@@ -197,16 +171,9 @@ class TestGISWorkflows(unittest.TestCase):
 
        # Filter chain to insert HDF into db 
         input_path_hdf = f'{self.INPUTDIR}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
-        last_output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "geodata"
-        }
+        last_output = self.test_db
+        last_output["db_table"] = "geodata"
 
-        
         f1 = gdtc.filters.file2file_factories.hdf2tif(layer_num=1, reproject=True, srcSRS='+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs', dstSRS="EPSG:4358", cell_res=1000)
         f2 = gdtc.filters.file2file_factories.tif2sql(coord_sys = 4358, db ="postgres", table='gdtc_table')
         f3 = gdtc.filters.file2db_factories.execsqlfile(output_db_table='gdtc_table')
@@ -218,14 +185,8 @@ class TestGISWorkflows(unittest.TestCase):
         shp_params['input_path'] = f'{self.INPUTDIR}/Comunidades_Autonomas_ETRS89_30N.shp'
         shp_params['input_srs'] = 'EPSG:4358'
         shp_params['output_srs'] = 'EPSG:4358'
-        shp_output = {
-            "db_host": self.POSTGIS_HOST,
-            "db_port": self.POSTGIS_PORT,
-            "db_database": "postgres",
-            "db_user": "postgres",
-            "db_password": "geodatatoolchainps",
-            "db_table": "comunidades_shp"
-        }
+        shp_output = self.test_db
+        shp_output["db_table"] = "comunidades_shp"
 
         f4 = gdtc.filters.file2db.SHP2DB(shp_params)
         f4.set_output(shp_output)
