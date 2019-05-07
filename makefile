@@ -1,8 +1,10 @@
 context:
-	mkdir -p ${HOME}/input_files
-	mkdir -p ${HOME}/output_files
+	mkdir -p ${LOCAL_IN_VOL}
+	mkdir -p ${LOCAL_OUT_VOL}
 	git clone https://github.com/IAAA-Lab/gdtc-test-data.git
-	cp -rf ./gdtc-test-data/input_files/* ${HOME}/input_files
+	cp -rf ./gdtc-test-data/input_files/* ${LOCAL_IN_VOL}
+	rm -rf gdtc-test-data
+
 
 build:
 	docker build -t gdtc/base:latest .
@@ -23,4 +25,4 @@ clean:
 	docker rm gdtc
 	docker rm postgis
 
-all: build run test
+all: context build run test
