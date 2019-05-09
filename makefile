@@ -25,4 +25,7 @@ clean:
 	docker rm gdtc
 	docker rm postgis
 
-all: context build run test
+# If you have already run make context in your computer, this will be faster than "all"
+local: build run test
+
+all: context local
