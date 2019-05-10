@@ -1,6 +1,7 @@
 import gdtc.aux.db
 import gdtc.aux.file
 from gdtc.filters.file2file import HDF2TIF, TIF2SQL, S3Bucket2File
+from gdtc.aux.config import Config as env
 import os
 
 # Factory methods to create filters
@@ -56,7 +57,7 @@ def s3_bucket_2_file(bucket_name, object_name, endpoint='s3.dualstack.eu-west-1.
     params['bucket_name'] = bucket_name
     params['object_name'] = object_name
     params['endpoint'] = endpoint
-    params['access_key'] = os.getenv('GDTC_ACCESS_KEY')
-    params['secret_key'] = os.getenv('GDTC_SECRET_KEY')
+    params['access_key'] = env.GDTC_ACCESS_KEY
+    params['secret_key'] = env.GDTC_SECRET_KEY
 
     return S3Bucket2File(params)

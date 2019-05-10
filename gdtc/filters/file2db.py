@@ -4,6 +4,7 @@ from osgeo import osr
 from osgeo import gdal
 import pandas as pd
 import sqlalchemy
+import logging
 
 import gdtc.aux.db as gdtcdb
 import gdtc.aux.srs as gdtcsrs
@@ -12,15 +13,22 @@ import gdtc.filters.basefilters as basefilters
 
 class ExecSQLFile(basefilters.File2DBFilter):
     def run(self):
+
+        logging.debug(f' Executing ExecSQLFile filter with params: {self.params}')
+
         db = gdtcdb.Db(*self.get_output_connection().values())
 
         with open(self.params['input_path'], "r") as file:
             sql = file.read()
+            logging.debug(f' SQL file to execute in: {self.params["input_path"]}')
 
         db.execute_query(sql)
 
 class SHP2DB(basefilters.File2DBFilter):
     def run(self):
+
+        logging.debug(f' Executing SHP2DB filter with params: {self.params}')
+
         # In general, we always want errors as exceptions. Having to enable them by hand is a "Python Gotcha" in gdal
         # see: https://trac.osgeo.org/gdal/wiki/PythonGotchas
         gdal.UseExceptions()
@@ -109,6 +117,9 @@ class CSV2DB(basefilters.File2DBFilter):
         can take
         :return:
         """
+
+        logging.debug(f' Executing CSV2DB filter with params: {self.params}')
+
         db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_csv = pd.read_csv(self.get_input(), **options)
@@ -122,6 +133,9 @@ class Excel2DB(basefilters.File2DBFilter):
         can take
         :return:
         """
+
+        logging.debug(f' Executing Excel2DB filter with params: {self.params}')
+
         db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_excel = pd.read_excel(self.get_input(), **options)
@@ -136,6 +150,9 @@ class FixedWidthFile2DB(basefilters.File2DBFilter):
         can take
         :return:
         """
+
+        logging.debug(f' Executing FixedWidthFile2DB filter with params: {self.params}')
+
         db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_fwf = pd.read_fwf(self.get_input(), **options)

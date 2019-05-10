@@ -1,4 +1,5 @@
 import subprocess
+import logging
 
 from osgeo import gdal
 import geopandas
@@ -8,9 +9,10 @@ from minio.error import (ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyEx
 
 from gdtc.filters.basefilters import File2FileFilter
 
-
 class HDF2TIF(File2FileFilter):
     def run(self):
+        logging.debug(f' Executing HDF2TIF filter with params: {self.params}')
+
         # Load file and get layer
         hdf = gdal.Open(self.get_input(), gdal.GA_ReadOnly)
         src_ds = gdal.Open(hdf.GetSubDatasets()[int(self.params['layer_num'])][0], gdal.GA_ReadOnly)
@@ -35,26 +37,49 @@ class HDF2TIF(File2FileFilter):
             out.GetRasterBand(1).WriteArray(layer_array)
             # Write file to disk
             out = None
-        return self.get_output()
+        
+        output = self.get_output()
+        
+        logging.debug(f' Returning from HDF2TIF with output: {output}')
+
+        return output
 
 
 class TIF2SQL(File2FileFilter):
     def run(self):
+
+        logging.debug(f' Executing TIF2SQL Filter with params: {self.params}')
+
         # Generate sql file
         cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_input()}\" -F -d {self.params["table"]} > \"{self.get_output()}\"'
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-        return self.get_output()
+        
+        try:
+            subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+        except subprocess.CalledProcessError as e:
+            logging.error(f' Error executing raster2pgsql command: {e}')
+        
+        output = self.get_output()
+
+        logging.debug(f' Returning from TIF2SQL with output: {output}')
+        
+        return output
 
 class PlotMap(File2FileFilter):
     def run(self):
+
+        logging.debug(f' Executing PlotMap Filter with params: {self.params}')
+
         map = geopandas.read_file(self.get_input())
         map.plot()
         plt.savefig(self.get_output())
 
 class S3Bucket2File(File2FileFilter):
     def run(self):
+
+        logging.debug(f' Executing PlotS3Bucket2FileMap Filter with params: {self.params}')
+
         minioClient = Minio(self.params['endpoint'], access_key=self.params['access_key'], secret_key=self.params['secret_key'], secure=True)
         try:
             minioClient.fget_object(self.params['bucket_name'], self.params['object_name'], self.get_output())
-        except ResponseError as err:
-            print(err)
+        except ResponseError as e:
+            logging.error(f' Error accessing S3 bucket: {e}')
