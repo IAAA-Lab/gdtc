@@ -10,6 +10,7 @@ import gdtc.filters.file2file_factories
 import gdtc.filters.db2db_factories
 import gdtc.filters.db2db
 import gdtc.filters.file2file
+import gdtc.filters.files2files
 import gdtc.filters.file2db
 import gdtc.filters.multifilters
 import gdtc.tasks.workflowbuilder as wfb
@@ -199,6 +200,17 @@ class TestGISWorkflows(unittest.TestCase):
 
         filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP(params, [hdf2db_filter_chain, f4])
         filter_vector.run()
+
+    def test_mosaic_rasters(self):
+        input = [f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip1.tif',
+                 f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip2.tif',
+                 f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip3.tif']
+
+        f1 = gdtc.filters.files2files.MosaicRasters(params={})
+        f1.set_input(input)
+        f1.set_output([f'{env.GDTC_OUT_VOL}/zgz_mosaic.tif'])
+        f1.run()
+
 
 if __name__ == '__main__':
     unittest.main()
