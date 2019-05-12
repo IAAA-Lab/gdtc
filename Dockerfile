@@ -17,7 +17,7 @@ RUN conda info -a
 COPY ./gdtc_conda.yml /root
 RUN conda env create -f /root/gdtc_conda.yml
 RUN conda init bash
-ENV PATH /root/miniconda/envs/gdtc:$PATH
+ENV PATH /root/miniconda/envs/gdtc/bin:$PATH
 RUN echo "source activate gdtc" >> ~/.bashrc
 RUN . activate gdtc
 
