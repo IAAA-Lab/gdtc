@@ -115,30 +115,73 @@ class FilterVector(Filter):
     def postRun(self):
         pass
 
-class File2FileFilter(Filter):
+
+class Files2FilesFilter(Filter):
     """
-    Abstract base class for filters that take an input file and produce an output file.
-    It requires a params dictionary with at least an input_path and output_path
-    properties.
+    Abstract base class for filters that take 1 or more input files and produce 1 or more output files.
+    It requires a params dictionary with an input_paths and output_paths
+    properties. These will be associated with an iterable (e.g. a list) of strings with the input and
+    output paths.
+    """
+
+    def __init__(self, params):
+        super(Files2FilesFilter, self).__init__(params)
+
+    def set_input(self, input_):
+        self.params['input_paths'] = input_
+
+    def set_output(self, output):
+        self.params['output_paths'] = output
+
+    def get_input(self):
+        return self.params["input_paths"]
+
+    def get_output(self):
+        """
+        If output_paths is not in params, the first time you call this method the outputs will be created with
+        random paths. If params includes a property n_outputs, that number of outputs will be created.
+        In other case, it will be just one.
+        """
+        if "output_paths" not in self.params:
+            self.params["output_paths"] = []
+            if "n_outputs" in self.params:
+                for i in range(self.params["n_outputs"]):
+                    self.params["output_paths"].append(gdtc.aux.file.create_tmp_file())
+            else: # Only one output
+                self.params["output_paths"].append(gdtc.aux.file.create_tmp_file())
+
+        return self.params["output_paths"]
+
+
+class File2FileFilter(Files2FilesFilter):
+    """
+    An specialization of Files2FilesFilter when there is exactly 1 input and 1 output.
     """
     def __init__(self, params):
         super(File2FileFilter, self).__init__(params)
 
     def set_input(self, input_):
-        self.params['input_path'] = input_
+        self.params['input_path'] = input_ # Kept for backwards compatibility, should be removed some day
+        # Super version takes an iterable,. not a string
+        super().set_input([input_])
 
     def set_output(self, output):
-        self.params['output_path'] = output
+        self.params['output_path'] = output  # Kept for backwards compatibility, should be removed some day
+        # Super version takes an iterable, not a string
+        super().set_output([output])
 
     def get_input(self):
-        return f'{self.params["input_path"]}'
+        if 'input_path' in self.params: # Kept for backwards compatibility, should be removed some day
+            return self.params['input_path']
+        else:
+            return super().get_input()[0]
 
     def get_output(self):
-        if "output_path" not in self.params:
-            self.params["output_path"] = gdtc.aux.file.create_tmp_file()
-        
-        return f'{self.params["output_path"]}'
-         
+        if 'output_path' in self.params: # Kept for backwards compatibility, should be removed some day
+            return self.params['output_path']
+        else:
+            return super().get_output()[0]
+
 
 
 class File2DBFilter(Filter):
