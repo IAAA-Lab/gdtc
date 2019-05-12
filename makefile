@@ -15,8 +15,9 @@ run:
 test:
 	# This is needed because if travis script is executed right afert the docker-compose has finished,
 	# and the postgres service hasn't started yet, the tests fail.
-	# TODO: Re-do with waitfor script
+ifeq ($(TRAVIS),"true")
 	sleep 10
+endif
 	docker exec gdtc /bin/bash -c "source activate gdtc && cd gdtc && python -m unittest -v gdtc/tests/filter_tests.py"
 
 clean:
