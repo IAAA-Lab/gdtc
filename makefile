@@ -6,7 +6,7 @@ context:
 	rm -rf gdtc-test-data
 
 waitfor:
-	deployment/wait-for 127.0.0.1:8432
+	docker exec gdtc /bin/bash -c "source activate gdtc && cd gdtc && deployment/wait-for-postgres postgis:5432"
 
 build:
 	docker build -t gdtc/base:latest .
