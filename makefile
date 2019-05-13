@@ -6,7 +6,7 @@ context:
 	rm -rf gdtc-test-data
 
 waitfor:
-	deployment/wait-for localhost:5432
+	deployment/wait-for 127.0.0.1:8432
 
 build:
 	docker build -t gdtc/base:latest .
