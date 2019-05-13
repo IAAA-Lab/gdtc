@@ -5,6 +5,7 @@ from osgeo import gdal
 import pandas as pd
 import sqlalchemy
 import logging
+import psycopg2
 
 import gdtc.aux.db as gdtcdb
 import gdtc.aux.srs as gdtcsrs
@@ -22,7 +23,14 @@ class ExecSQLFile(basefilters.File2DBFilter):
             sql = file.read()
             logging.debug(f' SQL file to execute in: {self.params["input_path"]}')
 
-        db.execute_query(sql)
+        try:
+            db.execute_query(sql)
+        except psycopg2.Error as e:
+            msg = f' Error executing query: {e}'
+            logging.error(msg)
+            raise RuntimeError(msg)  # If we fail, run must end with an error
+        finally:
+            db.close_connection()
 
 class SHP2DB(basefilters.File2DBFilter):
     def run(self):

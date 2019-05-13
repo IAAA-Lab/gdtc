@@ -17,27 +17,40 @@ class Db():
 
     def connect(self):
         """
-        Get a psycopg2 connection object to the database where the table is.
+        Creates a psycopg2 connection object to the database. If there is already one, and it is not closed,
+        it will return it.
         """
-
-        with psycopg2.connect(
-           port = self.port,
-           host = self.host,
-           database = self.database,
-           user = self.user,
-           password = self.password) as connection:
-               connection.set_client_encoding('utf-8')
-               self.connection = connection
-
+        if not self.__is_connection_valid(): # If not exists, or it is closed, create new connection
+            self.connection = psycopg2.connect(
+                port = self.port,
+                host = self.host,
+                database = self.database,
+                user = self.user,
+                password = self.password)
+            self.connection.set_client_encoding('utf-8')
         return self.connection
 
+    def close_connection(self):
+        """
+        It won't normally close itself.
+        """
+        if self.connection is not None:
+            self.connection.close()
+
     def execute_query(self, sql):
-        conn = self.connection if self.connection is not None else self.connect()
+        """
+        Executes sql in a transaction on the connection owned by self (connects if necessary)
+        """
+        if not self.__is_connection_valid():
+            self.connect()
 
-        with conn.cursor() as cur:
+        with self.connection.cursor() as cur:
             cur.execute(sql)
-            self.connection.commit()
+            # Commit is not necessary in a with statement, which is transactional by default
 
+    def __is_connection_valid(self):
+        # Valid if exists and its not closed
+        return not self.connection is None and self.connection.closed == 0
 
     def to_ogr_connection_string(self):
         # PostgreSQL specific. But, at least for now, Db class is PostgreSQL specific
