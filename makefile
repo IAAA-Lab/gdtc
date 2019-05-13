@@ -1,5 +1,4 @@
 context:
-	echo ${LOCAL_IN_VOL}
 	mkdir -p ${LOCAL_IN_VOL}
 	mkdir -p ${LOCAL_OUT_VOL}
 	git clone https://github.com/IAAA-Lab/gdtc-test-data.git
