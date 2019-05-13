@@ -73,9 +73,14 @@ def add_output_db_params(params, host, port, user, password, db):
     params = {**params, **new_params}
     return params
 
-
 def get_random_table_name():
     """
     :return: A random table name
     """
     return str(uuid.uuid4())
+
+def create_db_and_table_dict(host, port, user, password, db, table):
+    db = Db(host, port, db, user, password)
+    dict = db.to_params_dict(prefix='')
+    dict['db_table'] = table
+    return dict
