@@ -103,8 +103,8 @@ class TestGISWorkflows(unittest.TestCase):
         # TODO: Think about tif2sql filter, which is file2file filter but should pass table parameter to the next
         # filter. Now it's not happenning because file2file filter output gives just a path.
         # May be we have to overwrite get_output() method
-        f2 = gdtc.filters.file2file_factories.tif2sql(coord_sys = 4358, db ="postgres", table='gdtc_table')
-        f3 = gdtc.filters.file2db_factories.execsqlfile(output_db_table='gdtc_table')
+        f2 = gdtc.filters.file2file_factories.tif2sql(coord_sys = 4358, db ="postgres", table="gdtc_table")
+        f3 = gdtc.filters.file2db_factories.execsqlfile(output_db_table="gdtc_table")
         f4 = gdtc.filters.db2db_factories.rowfilter(where_clause="rid=1")
 
         filter_chain = gdtc.filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3, f4], first_input=input_file, last_output=last_output)
@@ -192,11 +192,11 @@ class TestGISWorkflows(unittest.TestCase):
             "output_db_password": "geodatatoolchainps",
             "output_db_table": "clips"
         }
-        params["geom"] = 'wkb_geometry'
-        params["shp_table"] = 'comunidades_shp'
-        params["hdf_table"] = 'gdtc_table'
-        params["ogc_fid"] = 2
-        params["rid"] = 1
+        params["geom"] = "wkb_geometry"
+        params["shp_table"] = "comunidades_shp"
+        params["hdf_table"] = "gdtc_table"
+        params["ogc_fid"] = "2"
+        params["rid"] = "1"
 
         filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP(params, [hdf2db_filter_chain, f4])
         filter_vector.run()
