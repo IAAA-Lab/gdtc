@@ -37,7 +37,13 @@ class Db():
         if self.connection is not None:
             self.connection.close()
 
-    def execute_query(self, sql):
+    def get_connection(self):
+        if not self.__is_connection_valid():
+            self.connect()
+            
+        return self.connection
+
+    def execute_query(self, sql, params=None):
         """
         Executes sql in a transaction on the connection owned by self (connects if necessary)
         """
@@ -45,7 +51,7 @@ class Db():
             self.connect()
 
         with self.connection.cursor() as cur:
-            cur.execute(sql)
+            cur.execute(sql, params)
             # Commit is not necessary in a with statement, which is transactional by default
 
     def __is_connection_valid(self):
