@@ -35,8 +35,8 @@ class ClipRasterWithSHP(FilterVector):
         logging.debug(f' SQL to execute: {str_query}')
         gdtcdb.execute_query(str_query)
 
-    def get_output(self):
+    def get_outputs(self):
         return output_factory.generate_db_output_getter_template(self)
 
-    def set_output(self, params):
+    def set_outputs(self, params):
         output_factory.generate_db_output_setter_template(self, params)

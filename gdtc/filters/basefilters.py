@@ -19,22 +19,20 @@ class Filter(ABC):
     def set_params(self, params):
         self.params = params
 
-    # Those abstract methods are needed so we can create a chain of any type without specifying
-    # what are we connecting
     @abstractmethod
-    def get_input(self):
+    def get_inputs(self):
         pass
 
     @abstractmethod
-    def set_input(self, input_):
+    def set_inputs(self, inputs):
         pass
 
     @abstractmethod
-    def get_output(self):
+    def get_outputs(self):
         pass
 
     @abstractmethod
-    def set_output(self, output):
+    def set_outputs(self, outputs):
         pass
 
     @abstractmethod
@@ -48,7 +46,7 @@ class FilterChain(Filter):
     The params in a FilterChain are for global settings, each Filter will have their own.
     Generally speaking, the global settings override the local ones.
     """
-    def __init__(self, params, fs):
+    def __init__(self, fs, params={}):
         super(FilterChain, self).__init__(params)
         self.fs = fs
 
@@ -58,17 +56,17 @@ class FilterChain(Filter):
     def append_filter(self, f):
         self.fs.append(f)
 
-    def get_input(self):
-        return f'{self.fs[0].get_input()}'
+    def get_inputs(self):
+        return self.fs[0].get_inputs()
 
-    def set_input(self, input_):
-        self.fs[0].set_input(input_)
+    def set_inputs(self, inputs):
+        self.fs[0].set_inputs(inputs)
 
-    def get_output(self):
-        return self.fs[-1].get_output()
+    def get_outputs(self):
+        return self.fs[-1].get_outputs()
 
-    def set_output(self, output):
-        self.fs[-1].set_output(output)
+    def set_outputs(self, outputs):
+        self.fs[-1].set_outputs(outputs)
 
     def run(self):
         """
@@ -87,24 +85,24 @@ class FilterVector(Filter):
     This lets the user define multiple outputs for the filter
     """
 
-    def __init__(self, params, fs):
+    def __init__(self, fs, params={}):
         super(FilterVector, self).__init__(params)
         self.fs = fs
     
-    def get_input(self):
+    def get_inputs(self):
         for f in self.fs:
-            yield f.get_input()
+            yield f.get_inputs()
 
-    def get_output(self):
+    def get_outputs(self):
         pass
 
-    def set_input(self, _input):
+    def set_inputs(self, _input):
         i=0
         for f in self.fs:
-            f.set_input(_input[i])
+            f.set_inputs(_input[i])
             i = i+1
 
-    def set_output(self, output):
+    def set_outputs(self, outputs):
         pass
 
     def run(self):
@@ -124,19 +122,29 @@ class Files2FilesFilter(Filter):
     output paths.
     """
 
-    def __init__(self, params):
+    def __init__(self, params={}):
         super(Files2FilesFilter, self).__init__(params)
 
-    def set_input(self, input_):
-        self.params['input_paths'] = input_
+    def set_inputs(self, inputs):
+        if isinstance(inputs, str):
+            self.params['input_paths'] = [inputs]
+        else: # This way if input_ is not iterable, a TypeError will be raised
+            self.params['input_paths'] = []
+            for i in inputs:
+                self.params['input_paths'].append(i)
 
-    def set_output(self, output):
-        self.params['output_paths'] = output
+    def set_outputs(self, outputs):
+        if isinstance(outputs, str):
+            self.params['output_paths'] = [outputs]
+        else: # This way if output is not iterable, a TypeError will be raised
+            self.params['output_paths'] = []
+            for o in outputs:
+                self.params['output_paths'].append(o)
 
-    def get_input(self):
+    def get_inputs(self):
         return self.params["input_paths"]
 
-    def get_output(self):
+    def get_outputs(self):
         """
         If output_paths is not in params, the first time you call this method the outputs will be created with
         random paths. If params includes a property n_outputs, that number of outputs will be created.
@@ -153,62 +161,36 @@ class Files2FilesFilter(Filter):
         return self.params["output_paths"]
 
 
-class File2FileFilter(Files2FilesFilter):
-    """
-    A specialization of Files2FilesFilter when there are exactly 1 input and 1 output.
-    """
-    def __init__(self, params):
-        super(File2FileFilter, self).__init__(params)
-
-    def set_input(self, input_):
-        self.params['input_path'] = input_ # Kept for backwards compatibility, should be removed some day
-        # Super version takes an iterable,. not a string
-        super().set_input([input_])
-
-    def set_output(self, output):
-        self.params['output_path'] = output  # Kept for backwards compatibility, should be removed some day
-        # Super version takes an iterable, not a string
-        super().set_output([output])
-
-    def get_input(self):
-        if 'input_path' in self.params: # Kept for backwards compatibility, should be removed some day
-            return self.params['input_path']
-        else:
-            return super().get_input()[0]
-
-    def get_output(self):
-        if 'output_path' in self.params: # Kept for backwards compatibility, should be removed some day
-            return self.params['output_path']
-        else:
-            return super().get_output()[0]
-
-
-
-class File2DBFilter(Filter):
+class Files2DBFilter(Filter):
     """
     Base class for filters that take an input file and write something to a DB.
     It requires a params dictionary with at least an input_path and output_db_host,
     output_db_port, output_db_user, output_db_password, output_db_database
     """
 
-    def __init__(self, params):
-        super(File2DBFilter, self).__init__(params)
+    def __init__(self, params={}):
+        super(Files2DBFilter, self).__init__(params)
 
-    def set_input(self, input_):
-        self.params['input_path'] = input_
+    def set_inputs(self, inputs):
+        if isinstance(inputs, str):
+            self.params['input_paths'] = [inputs]
+        else:  # This way if input_ is not iterable, a TypeError will be raised
+            self.params['input_paths'] = []
+            for i in inputs:
+                self.params['input_paths'].append(i)
 
-    def get_input(self):
-        return f'{self.params["input_path"]}'
+    def get_inputs(self):
+        return self.params["input_paths"]
 
-    def set_output(self, output):
-        self.params['output_db_host'] = output["db_host"]
-        self.params['output_db_port'] = output["db_port"]
-        self.params['output_db_database'] = output["db_database"]
-        self.params['output_db_user'] = output["db_user"]
-        self.params['output_db_password'] = output["db_password"]
-        self.params['output_db_table'] = output["db_table"] if "db_table" in output else gdtc.aux.db.get_random_table_name()
+    def set_outputs(self, outputs):
+        self.params['output_db_host'] = outputs["db_host"]
+        self.params['output_db_port'] = outputs["db_port"]
+        self.params['output_db_database'] = outputs["db_database"]
+        self.params['output_db_user'] = outputs["db_user"]
+        self.params['output_db_password'] = outputs["db_password"]
+        self.params['output_db_table'] = outputs["db_table"] if "db_table" in outputs else gdtc.aux.db.get_random_table_name()
 
-    def get_output(self):
+    def get_outputs(self):
         return {
             "db_host": self.params["output_db_host"],
             "db_port": self.params["output_db_port"],
@@ -232,31 +214,31 @@ class DBs2DBsFilter(Filter):
     """
     Abstract base class for filters that take 1 or more input tables in dbs and produce 1 or more output tables in dbs.
     """
-    def __init__(self, params):
+    def __init__(self, params={}):
         super(DBs2DBsFilter, self).__init__(params)
 
-    def set_input(self, input_):
+    def set_inputs(self, inputs):
         """
         _input must be an iterable of dictionaries with database parameters and a table name, such as those
         produced by the function gdtc.aux.db.create_db_and_table_dict()
         """
-        self.params['input_dbs'] = input_
+        self.params['input_dbs'] = inputs
 
-    def set_output(self, output):
+    def set_outputs(self, outputs):
         """
         output must be an iterable of dictionaries with database parameters and optional table names, such as those
         produced by the function gdtc.aux.db.create_db_and_table_dict(). If the optional table name is not there,
         a random name will be created
         """
-        self.params['output_dbs'] = output
+        self.params['output_dbs'] = outputs
         for o in self.params['output_dbs']:
             if 'db_table' not in o:
                 o['db_table'] = gdtc.aux.db.get_random_table_name()
 
-    def get_input(self):
+    def get_inputs(self):
         return self.params['input_dbs']
 
-    def get_output(self):
+    def get_outputs(self):
         """
         If output_dbs is not in params, the first time you call this method the outputs will be created with
         random table names and the same DB parameters (host,port,database,user,pwd) as the first input.
@@ -272,8 +254,24 @@ class DBs2DBsFilter(Filter):
 
         return self.params["output_dbs"]
 
+    def get_output_connection(self):
+        """
+        Returns an iterable of dictionaries with database parameters (like the outputs but without the table names)
+        """
+        output = self.get_outputs() # It is an iterable with at least one output
+        output_connection = []
+        for o in output:
+            output_connection.append({
+                "db_host": o["db_host"],
+                "db_port": o["db_port"],
+                "db_database": o["db_database"],
+                "db_user": o["db_user"],
+                "db_password": o["db_password"],
+            })
+        return output_connection
+
     def __create_random_output(self):
-        base_output = {**self.get_input()[0]} # Shallow copy of input params
+        base_output = {**self.get_inputs()[0]} # Shallow copy of input params
         base_output['db_table'] = gdtc.aux.db.get_random_table_name()
         return base_output
 
@@ -282,40 +280,33 @@ class DB2DBFilter(DBs2DBsFilter):
     """
     A specialization of DBs2DBsFilter when there are exactly 1 input and 1 output.
     """
-    def __init__(self, params):
+    def __init__(self, params={}):
         super(DB2DBFilter, self).__init__(params)
 
-    def set_input(self, input_):
+    def set_inputs(self, inputs):
         # Kept for backwards compatibility, should be removed some day
-        self.__to_input_params(input_)
+        self.__to_input_params(inputs)
 
         # Super version takes an iterable, not a dictionary
-        super().set_input([input_])
+        super().set_inputs([inputs])
 
-    def set_output(self, output):
+    def set_outputs(self, outputs):
         # Kept for backwards compatibility, should be removed some day
-        self.__to_output_params(output)
-        if 'db_table' not in output:
+        self.__to_output_params(outputs)
+        if 'db_table' not in outputs:
             self.params['output_db_table'] = gdtc.aux.db.get_random_table_name()
 
         # Super version takes an iterable, not a dictionary
-        super().set_output([output])
+        super().set_outputs([outputs])
 
-    def get_input(self):
-        return super().get_input()[0]
+    def get_inputs(self):
+        return super().get_inputs()[0]
 
-    def get_output(self):
-        return super().get_output()[0]
+    def get_outputs(self):
+        return super().get_outputs()[0]
 
     def get_output_connection(self):
-        output = self.get_output()
-        return {
-            "db_host": output["db_host"],
-            "db_port": output["db_port"],
-            "db_database": output["db_database"],
-            "db_user": output["db_user"],
-            "db_password": output["db_password"],
-        }
+        return super().get_output_connection()[0]
 
     def __to_input_params(self, dict):
         for k in dict:
@@ -334,18 +325,18 @@ class DB2FileFilter(Filter):
     If no output path is set, a random output file name is generated
     """
 
-    def __init__(self, params):
+    def __init__(self, params={}):
         super(DB2FileFilter, self).__init__(params)
 
-    def set_input(self, input_):
-        self.params['input_db_host'] = input_["db_host"]
-        self.params['input_db_port'] = input_["db_port"]
-        self.params['input_db_database'] = input_["db_database"]
-        self.params['input_db_user'] = input_["db_user"]
-        self.params['input_db_password'] = input_["db_password"]
-        self.params['input_db_table'] = input_["db_table"]
+    def set_inputs(self, inputs):
+        self.params['input_db_host'] = inputs["db_host"]
+        self.params['input_db_port'] = inputs["db_port"]
+        self.params['input_db_database'] = inputs["db_database"]
+        self.params['input_db_user'] = inputs["db_user"]
+        self.params['input_db_password'] = inputs["db_password"]
+        self.params['input_db_table'] = inputs["db_table"]
     
-    def get_input(self):
+    def get_inputs(self):
         return {
             "db_host": self.params["input_db_host"],
             "db_port": self.params["input_db_port"],
@@ -355,10 +346,10 @@ class DB2FileFilter(Filter):
             "db_table": self.params["input_db_table"]
         }
 
-    def set_output(self, output):
-        self.params['output_path'] = output
+    def set_outputs(self, outputs):
+        self.params['output_path'] = outputs
 
-    def get_output(self):
+    def get_outputs(self):
         if "output_path" not in self.params:
             self.params["output_path"] = gdtc.aux.file.create_tmp_file()
         

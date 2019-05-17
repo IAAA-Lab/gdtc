@@ -39,7 +39,7 @@ def create_file_2_file_task(f):
     :param f: a File2FileFilter
     :return: a File2FileTask
     """
-    t1 = basetasks.File2FileTask(input_path = f.get_input(), output_path = f.get_output())
+    t1 = basetasks.File2FileTask(input_path = f.get_inputs(), output_path = f.get_outputs())
     t1.run = types.MethodType((lambda self : f.run()), t1)
     return t1
 

@@ -80,12 +80,12 @@ class Db():
         params[f'{prefix}db_database'] = self.database
         return params
 
-def add_output_db_params(params, host, port, user, password, db):
+def add_output_db_params(params, host, port, user, password, database):
     """
     Add entries output_db_host, output_db_port etc. to the dictionary params with the values of host, port etc.
     :return:
     """
-    db = Db(host, port, db, user, password)
+    db = Db(host, port, database, user, password)
     new_params = db.to_params_dict(prefix='output_')
     # Merge new_params with params (new syntax from Python 3.5). If keys are repeated, values in new_params
     # will take precedence

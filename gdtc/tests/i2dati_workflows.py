@@ -12,7 +12,7 @@ class I2DATIWorkflowsTests(unittest.TestCase):
     def test_population(self):
         self.params['output_db_table'] = gdtcdb.get_random_table_name()
         f1 = SHPtoDB(self.params)
-        f1.set_input("/home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data/Data/"
+        f1.set_inputs("/home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data/Data/"
                      "recintos_municipales_inspire_peninbal_etrs89/recintos_municipales_inspire_peninbal_etrs89.shp")
 
         f1.run()
@@ -21,14 +21,14 @@ class I2DATIWorkflowsTests(unittest.TestCase):
         # These are some 220k rows. This filter takes some 2 minutes to run in my computer.
         self.params['output_db_table'] = gdtcdb.get_random_table_name()
         f2 = gdtcf2db.SHP2DB(self.params)
-        f2.set_input("/home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data/Data/"
+        f2.set_inputs("/home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data/Data/"
                      "RT_ZARAGOZA/RT_VIARIA/rt_tramo_vial.shp")
         f2.run()
 
     def test_ine_provs(self):
         self.params['output_db_table'] = gdtcdb.get_random_table_name()
         f3 = gdtcf2db.CSV2DB(self.params)
-        f3.set_input("/home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data/Data/"
+        f3.set_inputs("/home/rbejar/Nextcloud/Research_Notebook/Spatial_Information_Infrastructures_And_Geo_Data/Data/"
                      "INE_Provs_2018.csv")
         f3.run()
 

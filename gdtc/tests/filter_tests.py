@@ -113,45 +113,40 @@ class TestGISWorkflows(unittest.TestCase):
     def test_shp2db(self):
         output = self.test_db
         output["db_table"] = "shape2db_test"
-        params = {}
-        params['input_path'] = f'{env.GDTC_IN_VOL}/ne_110m_coastline.shp'
-        f1 = gdtc.filters.file2db.SHP2DB(params)
-        f1.set_output(output)
+        f1 = gdtc.filters.file2db.SHP2DB()
+        f1.set_inputs(f'{env.GDTC_IN_VOL}/ne_110m_coastline.shp')
+        f1.set_outputs(output)
         f1.run()
     
     def test_csv2db(self):
         output = self.test_db
         output["db_table"] = "csv_test"
-        params = {}
-        params['input_path'] = f'{env.GDTC_IN_VOL}/INE_Provs_2018.csv'
-        f1 = gdtc.filters.file2db.CSV2DB(params)
-        f1.set_output(output)
+        f1 = gdtc.filters.file2db.CSV2DB()
+        f1.set_inputs(f'{env.GDTC_IN_VOL}/INE_Provs_2018.csv')
+        f1.set_outputs(output)
         f1.run()
 
     def test_excel2db(self):
         output = self.test_db
         output["db_table"] = "excel_test"
-        params = {}
-        params['input_path'] = f'{env.GDTC_IN_VOL}/parque_2016_tablas_auxiliares_anuario.xlsx'
-        f1 = gdtc.filters.file2db.Excel2DB(params)
-        f1.set_output(output)
+        f1 = gdtc.filters.file2db.Excel2DB()
+        f1.set_inputs(f'{env.GDTC_IN_VOL}/parque_2016_tablas_auxiliares_anuario.xlsx')
+        f1.set_outputs(output)
         f1.run(sheet_name="parque_MUN", header=2)
 
 
     def test_fixed_width_file2db(self):
         output = self.test_db
         output["db_table"] = "fwf_test"
-        params = {}
-        params['input_path'] = f'{env.GDTC_IN_VOL}/Nomdef2017.txt'
-        f1 = gdtc.filters.file2db.FixedWidthFile2DB(params)
-        f1.set_output(output)
+        f1 = gdtc.filters.file2db.FixedWidthFile2DB()
+        f1.set_inputs(f'{env.GDTC_IN_VOL}/Nomdef2017.txt')
+        f1.set_outputs(output)
         f1.run()
 
     def test_plot_map(self):
-        params = {}
-        params['input_path'] = f'{env.GDTC_IN_VOL}/ne_110m_coastline.shp'
-        params['output_path'] = f'{env.GDTC_OUT_VOL}/ne_110m_coastline.png'
-        f1 = gdtc.filters.file2file.PlotMap(params)
+        f1 = gdtc.filters.file2file.PlotMap()
+        f1.set_inputs(f'{env.GDTC_IN_VOL}/ne_110m_coastline.shp')
+        f1.set_outputs(f'{env.GDTC_OUT_VOL}/ne_110m_coastline.png')
         f1.run()
 
     def test_s3_bucket(self):
@@ -173,14 +168,14 @@ class TestGISWorkflows(unittest.TestCase):
 
         # Filter to insert SHP into db
         shp_params = {} 
-        shp_params['input_path'] = f'{env.GDTC_IN_VOL}/Comunidades_Autonomas_ETRS89_30N.shp'
+        shp_params['input_paths'] = [f'{env.GDTC_IN_VOL}/Comunidades_Autonomas_ETRS89_30N.shp']
         shp_params['input_srs'] = 'EPSG:4358'
         shp_params['output_srs'] = 'EPSG:4358'
         shp_output = self.test_db
         shp_output["db_table"] = "comunidades_shp"
 
         f4 = gdtc.filters.file2db.SHP2DB(shp_params)
-        f4.set_output(shp_output)
+        f4.set_outputs(shp_output)
 
         # ClipRasterWithSHP is a filter vector
 
@@ -198,7 +193,7 @@ class TestGISWorkflows(unittest.TestCase):
         params["ogc_fid"] = "2"
         params["rid"] = "1"
 
-        filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP(params, [hdf2db_filter_chain, f4])
+        filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP([hdf2db_filter_chain, f4], params)
         filter_vector.run()
 
     def test_mosaic_rasters(self):
@@ -207,8 +202,8 @@ class TestGISWorkflows(unittest.TestCase):
                  f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip3.tif']
 
         f1 = gdtc.filters.files2files.MosaicRasters(params={})
-        f1.set_input(input)
-        f1.set_output([f'{env.GDTC_OUT_VOL}/zgz_mosaic.tif'])
+        f1.set_inputs(input)
+        f1.set_outputs([f'{env.GDTC_OUT_VOL}/zgz_mosaic.tif'])
         f1.run()
 
 

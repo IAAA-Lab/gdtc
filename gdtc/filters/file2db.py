@@ -12,7 +12,7 @@ import gdtc.aux.srs as gdtcsrs
 import gdtc.filters.basefilters as basefilters
 
 
-class ExecSQLFile(basefilters.File2DBFilter):
+class ExecSQLFile(basefilters.Files2DBFilter):
     def run(self):
 
         logging.debug(f' Executing ExecSQLFile filter with params: {self.params}')
@@ -32,7 +32,7 @@ class ExecSQLFile(basefilters.File2DBFilter):
         finally:
             db.close_connection()
 
-class SHP2DB(basefilters.File2DBFilter):
+class SHP2DB(basefilters.Files2DBFilter):
     def run(self):
 
         logging.debug(f' Executing SHP2DB filter with params: {self.params}')
@@ -42,7 +42,7 @@ class SHP2DB(basefilters.File2DBFilter):
         gdal.UseExceptions()
 
         shp_driver = ogr.GetDriverByName("ESRI Shapefile")
-        input_data_source = shp_driver.Open(self.get_input(), 0)
+        input_data_source = shp_driver.Open(self.get_inputs()[0], 0)
         input_layer = input_data_source.GetLayer()
 
         # Find out the geometry type of the input to use it in the output
@@ -117,7 +117,7 @@ class SHP2DB(basefilters.File2DBFilter):
         input_data_source = None
         conn = None
 
-class CSV2DB(basefilters.File2DBFilter):
+class CSV2DB(basefilters.Files2DBFilter):
     def run(self, **options):
         """
         Insert CSV file to DB.
@@ -130,10 +130,10 @@ class CSV2DB(basefilters.File2DBFilter):
 
         db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
-        input_csv = pd.read_csv(self.get_input(), **options)
+        input_csv = pd.read_csv(self.get_inputs()[0], **options)
         input_csv.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
 
-class Excel2DB(basefilters.File2DBFilter):
+class Excel2DB(basefilters.Files2DBFilter):
     def run(self, **options):
         """
         Insert Excel file to DB.
@@ -146,11 +146,11 @@ class Excel2DB(basefilters.File2DBFilter):
 
         db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
-        input_excel = pd.read_excel(self.get_input(), **options)
+        input_excel = pd.read_excel(self.get_inputs()[0], **options)
         input_excel.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
 
 
-class FixedWidthFile2DB(basefilters.File2DBFilter):
+class FixedWidthFile2DB(basefilters.Files2DBFilter):
     def run(self, **options):
         """
         Insert Fixed Width File to DB.
@@ -163,5 +163,5 @@ class FixedWidthFile2DB(basefilters.File2DBFilter):
 
         db = gdtcdb.Db(*self.get_output_connection().values())
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
-        input_fwf = pd.read_fwf(self.get_input(), **options)
+        input_fwf = pd.read_fwf(self.get_inputs()[0], **options)
         input_fwf.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
