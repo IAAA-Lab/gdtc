@@ -117,9 +117,10 @@ class FilterVector(Filter):
 class Files2FilesFilter(Filter):
     """
     Abstract base class for filters that take 1 or more input files and produce 1 or more output files.
-    It requires a params dictionary with an input_paths and output_paths
-    properties. These will be associated with an iterable (e.g. a list) of strings with the input and
-    output paths.
+
+    Params:
+    input_paths : list of paths (as strings)
+    output_paths: list of paths (as strings)
     """
 
     def __init__(self, params={}):
@@ -145,21 +146,16 @@ class Files2FilesFilter(Filter):
         return self.params["input_paths"]
 
     def get_outputs(self):
-        """
-        If output_paths is not in params, the first time you call this method the outputs will be created with
-        random paths. If params includes a property n_outputs, that number of outputs will be created.
-        In other case, it will be just one.
-        """
-        if "output_paths" not in self.params:
-            self.params["output_paths"] = []
-            if "n_outputs" in self.params:
-                for i in range(self.params["n_outputs"]):
-                    self.params["output_paths"].append(gdtc.aux.file.create_tmp_file())
-            else: # Only one output
-                self.params["output_paths"].append(gdtc.aux.file.create_tmp_file())
-
         return self.params["output_paths"]
 
+    def generate_random_outputs(self, num=1):
+        """
+        Num outputs (1 by default) will be created with random paths (and returned).
+        """
+        self.params["output_paths"] = []
+        for i in range(num):
+            self.params["output_paths"].append(gdtc.aux.file.create_tmp_file())
+        return self.params["output_paths"]
 
 class Files2DBFilter(Filter):
     """
