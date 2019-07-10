@@ -6,26 +6,22 @@ import gdtc.filters.basefilters as basefilters
 import gdtc.aux.db as gdtcdb
 
 
-class RowFilter(basefilters.DB2DBFilter):
+class RowFilter(basefilters.DBs2DBsFilter):
     def run(self):
-
         logging.debug(f' Executing RowFilter filter with params: {self.params}')
-        # FIXME: sql queries should not be created by formatting strings
-        # see: http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries
 
         query = sql.Composed([sql.SQL("DROP TABLE IF EXISTS "),
-                                sql.Identifier(self.params["output_db_table"]),
+                                sql.Identifier(self.get_outputs()[0]['db_table']),
                                 sql.SQL("; CREATE TABLE "),
-                                sql.Identifier(self.params["output_db_table"]),
+                                sql.Identifier(self.get_outputs()[0]['db_table']),
                                 sql.SQL(" AS ( SELECT * FROM "),
-                                sql.Identifier(self.params["input_db_table"]),
+                                sql.Identifier(self.get_inputs()[0]['db_table']),
                                 sql.SQL(" WHERE "),
                                 sql.SQL(self.params["where_clause"]),
                                 sql.SQL(" );")
                             ])
         
-        db = gdtcdb.Db(*self.get_output_connection().values())
-
+        db = gdtcdb.db_factory(self.get_outputs()[0])
         str_query = query.as_string(db.get_connection())
         logging.debug(f' SQL to execute: {str_query}')        
 

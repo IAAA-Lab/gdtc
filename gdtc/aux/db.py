@@ -67,7 +67,7 @@ class Db():
 
     def to_params_dict(self, prefix = ''):
         """
-        :param type: A prefix that will be added to the names of the params. E.g. if prefix is input_
+        :param prefix: A prefix that will be added to the names of the params. E.g. if prefix is input_
         the param db_host will be named input_db_host. Only input_, output_ and the empty prefix are allowed
         :return: a dictionary
         """
@@ -78,6 +78,7 @@ class Db():
         params[f'{prefix}db_user'] = self.user
         params[f'{prefix}db_password'] = self.password
         params[f'{prefix}db_database'] = self.database
+
         return params
 
 def add_output_db_params(params, host, port, user, password, database):
@@ -98,8 +99,19 @@ def get_random_table_name():
     """
     return str(uuid.uuid4())
 
-def create_db_and_table_dict(host, port, user, password, db, table):
+def db_factory(db_dict):
+    """
+    Create a Db object from a dictionary with the database parameters
+    """
+    return Db(db_dict['db_host'], db_dict['db_port'], db_dict['db_database'], db_dict['db_user'], db_dict['db_password'])
+
+
+def create_db_and_table_dict(host, port, db, user, password, table):
     db = Db(host, port, db, user, password)
-    dict = db.to_params_dict(prefix='')
-    dict['db_table'] = table
-    return dict
+    result = db.to_params_dict(prefix='')
+    result['db_table'] = table
+    return result
+
+def add_table_to_db_dict(db_dict, table):
+    db_dict['db_table'] = table
+    return db_dict

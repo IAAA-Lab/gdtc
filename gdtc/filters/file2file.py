@@ -51,7 +51,7 @@ class TIF2SQL(Files2FilesFilter):
         logging.debug(f' Executing TIF2SQL Filter with params: {self.params}')
 
         # Generate sql file
-        cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_inputs()[0]}\" -F -d {self.params["table"]} > \"{self.get_outputs()}\"'
+        cmd = f'raster2pgsql -I -C -s {self.params["coord_sys"]} \"{self.get_inputs()[0]}\" -F -d {self.params["db_table"]} > \"{self.get_outputs()[0]}\"'
         
         try:
             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)

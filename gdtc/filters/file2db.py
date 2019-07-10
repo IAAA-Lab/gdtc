@@ -12,17 +12,13 @@ import gdtc.aux.srs as gdtcsrs
 import gdtc.filters.basefilters as basefilters
 
 
-class ExecSQLFile(basefilters.Files2DBFilter):
+class ExecSQLFile(basefilters.Files2DBsFilter):
     def run(self):
-
         logging.debug(f' Executing ExecSQLFile filter with params: {self.params}')
-
-        db = gdtcdb.Db(*self.get_output_connection().values())
-
-        with open(self.params['input_path'], "r") as file:
+        db = gdtcdb.db_factory(self.get_outputs()[0])
+        with open(self.get_inputs()[0], "r") as file:
             sql = file.read()
-            logging.debug(f' SQL file to execute in: {self.params["input_path"]}')
-
+            logging.debug(f' SQL file to execute in: {self.get_inputs()[0]}')
         try:
             db.execute_query(sql)
         except psycopg2.Error as e:
@@ -32,7 +28,7 @@ class ExecSQLFile(basefilters.Files2DBFilter):
         finally:
             db.close_connection()
 
-class SHP2DB(basefilters.Files2DBFilter):
+class SHP2DB(basefilters.Files2DBsFilter):
     def run(self):
 
         logging.debug(f' Executing SHP2DB filter with params: {self.params}')
@@ -81,11 +77,11 @@ class SHP2DB(basefilters.Files2DBFilter):
         else:
             output_srs = input_srs
 
-        db = gdtcdb.Db(*self.get_output_connection().values())
+        db = gdtcdb.db_factory(self.get_outputs()[0])
         db_connection_string = db.to_ogr_connection_string()
         conn = ogr.Open(db_connection_string)
         # TODO: Consider a mode where OVERWRITE is not always YES?
-        output_layer = conn.CreateLayer(self.params['output_db_table'], output_srs, geometry_type, ['OVERWRITE=YES'])
+        output_layer = conn.CreateLayer(self.get_outputs()[0]['db_table'], output_srs, geometry_type, ['OVERWRITE=YES'])
 
         # Create table fields from those in the shapefile
         input_layer_defn = input_layer.GetLayerDefn()
@@ -117,7 +113,7 @@ class SHP2DB(basefilters.Files2DBFilter):
         input_data_source = None
         conn = None
 
-class CSV2DB(basefilters.Files2DBFilter):
+class CSV2DB(basefilters.Files2DBsFilter):
     def run(self, **options):
         """
         Insert CSV file to DB.
@@ -128,12 +124,12 @@ class CSV2DB(basefilters.Files2DBFilter):
 
         logging.debug(f' Executing CSV2DB filter with params: {self.params}')
 
-        db = gdtcdb.Db(*self.get_output_connection().values())
+        db = gdtcdb.db_factory(self.get_outputs()[0])
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_csv = pd.read_csv(self.get_inputs()[0], **options)
-        input_csv.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
+        input_csv.to_sql(self.get_outputs()[0]['db_table'], con=sqlalchemy_engine, if_exists='replace')
 
-class Excel2DB(basefilters.Files2DBFilter):
+class Excel2DB(basefilters.Files2DBsFilter):
     def run(self, **options):
         """
         Insert Excel file to DB.
@@ -144,13 +140,13 @@ class Excel2DB(basefilters.Files2DBFilter):
 
         logging.debug(f' Executing Excel2DB filter with params: {self.params}')
 
-        db = gdtcdb.Db(*self.get_output_connection().values())
+        db = gdtcdb.db_factory(self.get_outputs()[0])
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_excel = pd.read_excel(self.get_inputs()[0], **options)
-        input_excel.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
+        input_excel.to_sql(self.get_outputs()[0]['db_table'], con=sqlalchemy_engine, if_exists='replace')
 
 
-class FixedWidthFile2DB(basefilters.Files2DBFilter):
+class FixedWidthFile2DB(basefilters.Files2DBsFilter):
     def run(self, **options):
         """
         Insert Fixed Width File to DB.
@@ -161,7 +157,7 @@ class FixedWidthFile2DB(basefilters.Files2DBFilter):
 
         logging.debug(f' Executing FixedWidthFile2DB filter with params: {self.params}')
 
-        db = gdtcdb.Db(*self.get_output_connection().values())
+        db = gdtcdb.db_factory(self.get_outputs()[0])
         sqlalchemy_engine = sqlalchemy.create_engine(db.to_sql_alchemy_engine_string())
         input_fwf = pd.read_fwf(self.get_inputs()[0], **options)
-        input_fwf.to_sql(self.params['output_db_table'], con=sqlalchemy_engine, if_exists='replace')
+        input_fwf.to_sql(self.get_outputs()[0]['db_table'], con=sqlalchemy_engine, if_exists='replace')

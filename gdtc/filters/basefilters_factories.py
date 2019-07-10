@@ -1,9 +1,8 @@
 from gdtc.filters.basefilters import FilterChain
 
-# TODO: We are not checking that the filters can really be connected. May be it's a user responsability
-#       to check that any connection made is of the type DB_out -> BD_in or File_out -> File_in
+# TODO: We are not checking that the filters are really connected in any meaningful way
 
-def create_filter_chain(params, fs, first_input, last_output=[]):
+def create_filter_chain(params, fs, first_input, last_output=None):
     """
     Add Filter f to FilterChain fc by taking the output_params of the last Filter in the FilterChain and
     making it the input_params of the Filter f.
@@ -13,16 +12,17 @@ def create_filter_chain(params, fs, first_input, last_output=[]):
     """
 
     fs[0].set_inputs(first_input)
-    fs[-1].set_outputs(last_output)
+
+    if last_output is not None:
+        fs[-1].set_outputs(last_output)
 
     for i in range(1, len(fs)):
-        try:
-            fs[i].set_inputs(fs[i - 1].get_outputs())
-        except KeyError as e:
-            # If there are not output_paths in fs[i-1] generate them
-            fs[i].set_inputs(fs[i-1].generate_random_outputs(1))
-    
-    return FilterChain(params, fs)
+        prior_outputs = fs[i - 1].get_outputs()
+        if prior_outputs: # if not None and not empty
+            fs[i].set_inputs(prior_outputs)
+        else:
+            fs[i].set_inputs(fs[i-1].generate_random_outputs())
+    return FilterChain(fs, params)
 
 def append_filter_to_chain(fc, f):
     """
