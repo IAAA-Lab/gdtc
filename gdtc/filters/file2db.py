@@ -11,7 +11,7 @@ import gdtc.aux.db as gdtcdb
 import gdtc.aux.srs as gdtcsrs
 import gdtc.filters.basefilters as basefilters
 
-
+# TODO: Is ExecSQLFile a Files2DBsFilter? Depending on the definition of Filter, that is not clear
 class ExecSQLFile(basefilters.Files2DBsFilter):
     def run(self):
         logging.debug(f' Executing ExecSQLFile filter with params: {self.params}')

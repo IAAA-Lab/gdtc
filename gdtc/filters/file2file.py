@@ -11,6 +11,10 @@ from gdtc.filters.basefilters import Files2FilesFilter
 
 class HDF2TIF(Files2FilesFilter):
     def run(self):
+        # In general, we always want errors as exceptions. Having to enable them by hand is a "Python Gotcha" in gdal
+        # see: https://trac.osgeo.org/gdal/wiki/PythonGotchas
+        gdal.UseExceptions()
+
         logging.debug(f' Executing HDF2TIF filter with params: {self.params}')
 
         # Load file and get layer
@@ -38,7 +42,7 @@ class HDF2TIF(Files2FilesFilter):
             # Write file to disk
             out = None
         
-        output = self.get_outputs()
+        output = self.get_outputs()[0]
         
         logging.debug(f' Returning from HDF2TIF with output: {output}')
 

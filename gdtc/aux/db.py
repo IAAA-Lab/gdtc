@@ -50,9 +50,10 @@ class Db():
         if not self.__is_connection_valid():
             self.connect()
 
-        with self.connection.cursor() as cur:
-            cur.execute(sql, params)
-            # Commit is not necessary in a with statement, which is transactional by default
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+            # Commit is not necessary in a with conn statement, which is transactional by default in psycopg >2.5
 
     def __is_connection_valid(self):
         # Valid if exists and its not closed
@@ -93,7 +94,7 @@ def add_output_db_params(params, host, port, user, password, database):
     params = {**params, **new_params}
     return params
 
-def get_random_table_name():
+def create_random_table_name():
     """
     :return: A random table name
     """

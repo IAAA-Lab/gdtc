@@ -1,7 +1,5 @@
 from gdtc.filters.basefilters import FilterChain
 
-# TODO: We are not checking that the filters are really connected in any meaningful way
-
 def create_filter_chain(params, fs, first_input, last_output=None):
     """
     Add Filter f to FilterChain fc by taking the output_params of the last Filter in the FilterChain and

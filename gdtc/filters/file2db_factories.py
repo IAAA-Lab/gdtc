@@ -4,7 +4,6 @@ import gdtc.filters.file2file_factories
 from gdtc.aux import db as gdtcdb
 from gdtc.filters.file2db import ExecSQLFile, SHP2DB, CSV2DB
 
-
 def execsqlfile(db, sql_file_path=None):
     """
     db must include at least a db_table, not only a db connection

@@ -13,7 +13,6 @@ import gdtc.filters.db2db
 import gdtc.filters.file2file
 import gdtc.filters.files2files
 import gdtc.filters.file2db
-import gdtc.filters.multifilters
 import gdtc.tasks.workflowbuilder as wfb
 
 
@@ -101,48 +100,48 @@ class TestGISWorkflows(unittest.TestCase):
     #     f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{env.GDTC_OUT_VOL}/test_object.png')
     #     f1.run()
     #
-    # def test_filter_vector(self):
-    #
-    #     # Filter chain to insert HDF into db
-    #     input_path_hdf = f'{env.GDTC_IN_VOL}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
-    #     last_output = self.test_db
-    #     last_output["db_table"] = "geodata"
-    #
-    #     f1 = gdtc.filters.file2file_factories.hdf2tif(layer_num=1, reproject=True, srcSRS='+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs', dstSRS="EPSG:4358", cell_res=1000)
-    #     f2 = gdtc.filters.file2file_factories.tif2sql(coord_sys = 4358, db_table='gdtc_table')
-    #     f3 = gdtc.filters.file2db_factories.execsqlfile(db = self.test_db, db_table='gdtc_table')
-    #
-    #     hdf2db_filter_chain = gdtc.filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3], first_input=input_path_hdf, last_output=last_output)
-    #
-    #     # Filter to insert SHP into db
-    #     shp_params = {}
-    #     shp_params['input_paths'] = [f'{env.GDTC_IN_VOL}/Comunidades_Autonomas_ETRS89_30N.shp']
-    #     shp_params['input_srs'] = 'EPSG:4358'
-    #     shp_params['output_srs'] = 'EPSG:4358'
-    #     shp_output = self.test_db
-    #     shp_output["db_table"] = "comunidades_shp"
-    #
-    #     f4 = gdtc.filters.file2db.SHP2DB(shp_params)
-    #     f4.set_outputs(shp_output)
-    #
-    #     # ClipRasterWithSHP is a filter vector
-    #
-    #     params = {
-    #         "output_db_host": env.POSTGIS_HOST,
-    #         "output_db_port": env.POSTGIS_PORT,
-    #         "output_db_database": "postgres",
-    #         "output_db_user": "postgres",
-    #         "output_db_password": "geodatatoolchainps",
-    #         "output_db_table": "clips"
-    #     }
-    #     params["geom"] = "wkb_geometry"
-    #     params["shp_table"] = "comunidades_shp"
-    #     params["hdf_table"] = "gdtc_table"
-    #     params["ogc_fid"] = "2"
-    #     params["rid"] = "1"
-    #
-    #     filter_vector = gdtc.filters.multifilters.ClipRasterWithSHP([hdf2db_filter_chain, f4], params)
-    #     filter_vector.run()
+    def test_clip_raster_with_shp(self):
+
+        # Filter chain to insert HDF into db
+        input_path_hdf = f'{env.GDTC_IN_VOL}/MCD12Q1.A2006001.h17v04.006.2018054121935.hdf'
+        last_output = add_table_to_db_dict(self.test_db.to_params_dict(), "IRRELEVANT")
+
+
+        f1 = gdtc.filters.file2file_factories.hdf2tif(layer_num=0, reproject=True,
+                                                      srcSRS='+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs',
+                                                      dstSRS="EPSG:25830", cell_res=1000)
+        f2 = gdtc.filters.file2file_factories.tif2sql(coord_sys = 25830, db_table='tif_table')
+        f3 = gdtc.filters.file2db_factories.execsqlfile(db=add_table_to_db_dict(self.test_db.to_params_dict(), "IRRELEVANT"))
+
+        hdf2db_filter_chain = gdtc.filters.basefilters_factories.create_filter_chain({}, [f1, f2, f3], first_input=input_path_hdf, last_output=last_output)
+
+        # Filter to insert SHP into db
+        shp_params = {}
+        shp_params['input_paths'] = [f'{env.GDTC_IN_VOL}/Comunidades_Autonomas_ETRS89_30N.shp']
+        shp_params['input_srs'] = 'EPSG:25830'
+        shp_params['output_srs'] = 'EPSG:25830'
+        shp_output = add_table_to_db_dict(self.test_db.to_params_dict(), "comunidades_shp")
+
+        f4 = gdtc.filters.file2db.SHP2DB(shp_params)
+        f4.set_outputs(shp_output)
+
+
+        params = {}
+        params["geom"] = "wkb_geometry"
+        params["ogc_fid"] = "2"
+        params["rid"] = "1"
+
+        clipper_input_0 = add_table_to_db_dict(self.test_db.to_params_dict(), "comunidades_shp")
+        clipper_input_1 = add_table_to_db_dict(self.test_db.to_params_dict(), "tif_table")
+        clipper_output = add_table_to_db_dict(self.test_db.to_params_dict(), "final_result")
+
+        clipper = gdtc.filters.db2db.ClipRasterWithSHP(params)
+        clipper.set_inputs([clipper_input_0, clipper_input_1])
+        clipper.set_outputs(clipper_output)
+
+        hdf2db_filter_chain.run()
+        f4.run()
+        clipper.run()
 
     def test_mosaic_rasters(self):
         input = [f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip1.tif',

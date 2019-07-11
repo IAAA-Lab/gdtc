@@ -172,7 +172,7 @@ class Files2DBsFilter(Filter):
         The rest of the db parameters (host, port, etc.) will not be modified.
         """
         for o in self.params["output_dbs"]:
-            o['db_table'] = gdtc.aux.db.get_random_table_name()
+            o['db_table'] = gdtc.aux.db.create_random_table_name()
         return self.params["output_dbs"]
 
 
@@ -224,7 +224,7 @@ class DBs2DBsFilter(Filter):
         """
         if "output_dbs" in self.params:
             for o in self.params["output_dbs"]:
-                o['db_table'] = gdtc.aux.db.get_random_table_name()
+                o['db_table'] = gdtc.aux.db.create_random_table_name()
         else:
             self.params["output_dbs"] = []
             for i in range(num):
@@ -233,7 +233,7 @@ class DBs2DBsFilter(Filter):
 
     def __create_random_output(self):
         base_output = {**self.get_inputs()[0]} # Shallow copy of input params
-        base_output['db_table'] = gdtc.aux.db.get_random_table_name()
+        base_output['db_table'] = gdtc.aux.db.create_random_table_name()
         return base_output
 
 # TODO: Think if the case of one or more tables/views in a BD to one or more tables/views in the same DB, should
