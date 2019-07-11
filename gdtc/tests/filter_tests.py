@@ -1,7 +1,4 @@
 import unittest
-import os
-
-import luigi
 
 from gdtc.aux.config import Config as env
 from gdtc.aux.db import Db, add_table_to_db_dict
@@ -13,7 +10,6 @@ import gdtc.filters.db2db
 import gdtc.filters.file2file
 import gdtc.filters.files2files
 import gdtc.filters.file2db
-import gdtc.tasks.workflowbuilder as wfb
 
 
 class TestGISWorkflows(unittest.TestCase):
@@ -99,7 +95,7 @@ class TestGISWorkflows(unittest.TestCase):
     # def test_s3_bucket(self):
     #     f1 = gdtc.filters.file2file_factories.s3_bucket_2_file(bucket_name='gdtc', object_name='test_object.png', output_path=f'{env.GDTC_OUT_VOL}/test_object.png')
     #     f1.run()
-    #
+
     def test_clip_raster_with_shp(self):
 
         # Filter chain to insert HDF into db
