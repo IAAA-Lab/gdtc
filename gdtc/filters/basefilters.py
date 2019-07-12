@@ -46,8 +46,10 @@ class FilterChain(Filter):
     The params in a FilterChain are for global settings, each Filter will have their own.
     Generally speaking, the global settings override the local ones.
     """
-    def __init__(self, fs, params={}):
+    def __init__(self, fs, params=None):
         super(FilterChain, self).__init__(params)
+        if params is None:
+            params = {}
         self.fs = fs
 
     def get_filters(self):
@@ -86,8 +88,10 @@ class Files2FilesFilter(Filter):
     output_paths: list of paths (as strings)
     """
 
-    def __init__(self, params={}):
+    def __init__(self, params=None):
         super(Files2FilesFilter, self).__init__(params)
+        if params is None:
+            params = {}
 
     def set_inputs(self, inputs):
         if inputs is not None:
@@ -135,8 +139,10 @@ class Files2DBsFilter(Filter):
     output_dbs: list of dbs (dictionaries as produced by gdtc.aux.db.create_db_and_table_dict()
     """
 
-    def __init__(self, params={}):
+    def __init__(self, params=None):
         super(Files2DBsFilter, self).__init__(params)
+        if params is None:
+            params = {}
 
     def set_inputs(self, inputs):
         if inputs is not None:
@@ -185,8 +191,10 @@ class DBs2DBsFilter(Filter):
     input_paths : list of dbs (dictionaries as produced by gdtc.aux.db.create_db_and_table_dict()
     output_dbs: list of dbs (dictionaries as produced by gdtc.aux.db.create_db_and_table_dict()
     """
-    def __init__(self, params={}):
+    def __init__(self, params=None):
         super(DBs2DBsFilter, self).__init__(params)
+        if params is None:
+            params = {}
 
     def set_inputs(self, inputs):
         if inputs is not None:
@@ -247,8 +255,10 @@ class DBs2FilesFilter(Filter):
     input_paths : list of dbs (dictionaries as produced by gdtc.aux.db.create_db_and_table_dict()
     output_paths: list of paths (as strings)
     """
-    def __init__(self, params={}):
+    def __init__(self, params=None):
         super(DBs2FilesFilter, self).__init__(params)
+        if params is None:
+            params = {}
 
     def set_inputs(self, inputs):
         if inputs is not None:
