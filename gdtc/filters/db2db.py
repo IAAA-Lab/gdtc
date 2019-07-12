@@ -4,7 +4,6 @@ from psycopg2 import sql
 
 import gdtc.filters.basefilters as basefilters
 import gdtc.aux.db as gdtcdb
-from filters.basefilters import DBs2DBsFilter
 
 
 class RowFilter(basefilters.DBs2DBsFilter):
@@ -74,7 +73,7 @@ class ClipRasterWithSHP(basefilters.DBs2DBsFilter):
             db.close_connection()
 
 
-class ContainedIn(DBs2DBsFilter):
+class ContainedIn(basefilters.DBs2DBsFilter):
     """
     Takes 2 input tables and creates another table with those geometries from table 1 contained
     in those from table 2.

@@ -49,7 +49,7 @@ class FilterChain(Filter):
     def __init__(self, fs, params=None):
         super(FilterChain, self).__init__(params)
         if params is None:
-            params = {}
+            self.params = {}
         self.fs = fs
 
     def get_filters(self):
@@ -89,9 +89,9 @@ class Files2FilesFilter(Filter):
     """
 
     def __init__(self, params=None):
-        super(Files2FilesFilter, self).__init__(params)
         if params is None:
             params = {}
+        super(Files2FilesFilter, self).__init__(params)
 
     def set_inputs(self, inputs):
         if inputs is not None:
@@ -140,9 +140,9 @@ class Files2DBsFilter(Filter):
     """
 
     def __init__(self, params=None):
-        super(Files2DBsFilter, self).__init__(params)
         if params is None:
             params = {}
+        super(Files2DBsFilter, self).__init__(params)
 
     def set_inputs(self, inputs):
         if inputs is not None:
@@ -192,9 +192,9 @@ class DBs2DBsFilter(Filter):
     output_dbs: list of dbs (dictionaries as produced by gdtc.aux.db.create_db_and_table_dict()
     """
     def __init__(self, params=None):
-        super(DBs2DBsFilter, self).__init__(params)
         if params is None:
             params = {}
+        super(DBs2DBsFilter, self).__init__(params)
 
     def set_inputs(self, inputs):
         if inputs is not None:
@@ -256,9 +256,9 @@ class DBs2FilesFilter(Filter):
     output_paths: list of paths (as strings)
     """
     def __init__(self, params=None):
-        super(DBs2FilesFilter, self).__init__(params)
         if params is None:
             params = {}
+        super(DBs2FilesFilter, self).__init__(params)
 
     def set_inputs(self, inputs):
         if inputs is not None:

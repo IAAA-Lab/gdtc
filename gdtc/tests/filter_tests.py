@@ -1,6 +1,5 @@
 import unittest
 
-import filters.file2file
 from gdtc.aux.config import Config as env
 from gdtc.aux.db import Db, add_table_to_db_dict
 import gdtc.filters.basefilters_factories
@@ -144,7 +143,7 @@ class TestGISWorkflows(unittest.TestCase):
                  f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip2.tif',
                  f'{env.GDTC_IN_VOL}/zgz_orto/zgz_clip3.tif']
 
-        f1 = filters.file2file.MosaicRasters(params={})
+        f1 = gdtc.filters.file2file.MosaicRasters(params={})
         f1.set_inputs(input)
         f1.set_outputs([f'{env.GDTC_OUT_VOL}/zgz_mosaic.tif'])
         f1.run()
